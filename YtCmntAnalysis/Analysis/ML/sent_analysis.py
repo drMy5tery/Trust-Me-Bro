@@ -1,5 +1,4 @@
 import os
-import pprint
 import nltk
 import googleapiclient.discovery
 nltk.download("vader_lexicon")
@@ -116,10 +115,6 @@ class SimpleYtCommentAnalyzer:
 
             nextPageToken = response.get('nextPageToken')
             if not nextPageToken:
-                self.sentiment = self.get_sentiment()
-            return self.comments , self.sentiment
-
-        self.sentiment = self.get_sentiment()
-        print(self.sentiment)
-        return self.comments,self.sentiment
+               #self.sentiment = self.get_sentiment()
+                break
 
