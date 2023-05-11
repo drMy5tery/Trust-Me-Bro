@@ -17,8 +17,8 @@ class SimpleYtCommentAnalyzer:
             "views" : 0,
             "likes" : 0,
             "commentcount" :0,
-            "like:view ratio": 0.0,  
-            "comment:view ratio": 0.0,
+            "like_view_ratio": 0.0,  
+            "comment_view_ratio": 0.0,
         }
         self.video_id = video_id
         self.youtube = self.yt_api_build()
@@ -43,8 +43,8 @@ class SimpleYtCommentAnalyzer:
         self.stats['views'] = response['items'][0]['statistics']['viewCount']
         self.stats['likes'] = response['items'][0]['statistics']['likeCount']
         self.stats['commentcount'] = response['items'][0]['statistics']['commentCount']
-        self.stats["like:view ratio"]=float(int( self.stats['likes'])/int(self.stats['views']))
-        self.stats["comment:view ratio"]=float(int( self.stats['commentcount'])/int(self.stats['views']))
+        self.stats["like_view_ratio"]=float(int( self.stats['likes'])/int(self.stats['views']))
+        self.stats["comment_view_ratio"]=float(int( self.stats['commentcount'])/int(self.stats['views']))
     def text_preprocessing(self,text):
         text.lower()
         data = text.split("\n")
@@ -115,6 +115,7 @@ class SimpleYtCommentAnalyzer:
 
             nextPageToken = response.get('nextPageToken')
             if not nextPageToken:
-               #self.sentiment = self.get_sentiment()
                 break
-
+        self.sentiment = self.get_sentiment()
+        print(self.sentiment)
+        return self.comments,self.sentiment
