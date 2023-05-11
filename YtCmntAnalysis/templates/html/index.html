@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>YouTube Sentiment Analysis</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('form').submit(function(event) {
+                event.preventDefault();  // Prevent form submission
+                var url = $('#id_url').val();  // Get the YouTube URL
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url "analysis" %}',
+                    data: {
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        'url': url
+                    },
+                    success: function(response) {
+                        var scores=JSON.stringify(response.Scores)
+                        $('#result-container').html('<h2>Video Info:</h2>' +
+                          '<h3>Sentiment: ' + response.Sentiment + '</h3>' +
+                          '<p>Title: ' + response.title + '</p>' +
+                          '<p>Views: ' + response.views + '</p>' +
+                          '<p>Likes: ' + response.likes + '</p>' +
+                          '<p>Comments Count: ' + response.commentcount + '</p>' +
+                          '<p>(Like:View) Ratio: ' + response.like_view_ratio + '</p>' +
+                          '<p>(Comment:View) Ratio: ' + response.comment_view_ratio + '</p>' +
+                          '<p>Scores: ' + scores + '</p>');  //result container
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>YouTube Video Extractor</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Extract</button>
+    </form>
+
+    <div id="result-container"></div>  <!-- Container to display the result -->
+</body>
+</html>
