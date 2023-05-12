@@ -1,6 +1,7 @@
 from django.shortcuts import render,HttpResponse
 import os
 import json
+import tweetnlp
 from django.views import View
 from .ML.sent_analysis import SimpleYtCommentAnalyzer
 from django.http import JsonResponse
@@ -9,7 +10,8 @@ from .forms import YouTubeUrlForm
 
 # Create your views here.
 def test(request):
-    obj = SimpleYtCommentAnalyzer("QwreMeXlFoY")
+    model = tweetnlp.load_model('sentiment', multilingual=True)
+    obj = SimpleYtCommentAnalyzer(model , "QwreMeXlFoY" )
     obj.get_comments_and_sentiment_by_video_id()
     temp=obj.get_summary()
     pretty_data = json.dumps(temp, indent=4)
@@ -28,14 +30,16 @@ class Analview(View):
         if form.is_valid():
             url = form.cleaned_data['url']
             video_comment_info = self.get_analysis(url)
-            print(video_comment_info)
+            #print(video_comment_info)
             return JsonResponse(video_comment_info)
         return render(request, self.template_name, {'form': form})
     def get_analysis(self,url):
         url_id=self.get_yt_video_id(url)
-        obj = SimpleYtCommentAnalyzer(url_id)
+        model = tweetnlp.load_model('sentiment', multilingual=True)
+        obj = SimpleYtCommentAnalyzer(model,url_id)
         obj.get_comments_and_sentiment_by_video_id()
         temp=obj.get_summary()
+        #print(temp)
         return temp
     def get_yt_video_id(self,url):
         if url.startswith(('youtu', 'www')):
