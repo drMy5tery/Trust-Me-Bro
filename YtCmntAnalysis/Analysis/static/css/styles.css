@@ -12,7 +12,7 @@ h1 {
 }
 
 form {
-    max-width: 400px;
+    max-width: 600px;
     margin: 0 auto;
     background-color: #333;
     padding: 20px;
@@ -75,6 +75,7 @@ input[type="url"],
 button[type="submit"] {
     background-color: #1a1a1a;
     color: #fff;
+    max-width: fit-content;
     border: 1px solid teal;
     padding: 8px 10px;
     border-radius: 20px;
