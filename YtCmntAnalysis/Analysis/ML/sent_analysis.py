@@ -1,28 +1,28 @@
 import os
-import nltk
 import googleapiclient.discovery
-nltk.download("vader_lexicon")
-from nltk.sentiment.vader  import SentimentIntensityAnalyzer
+from vaderSentiment.vaderSentiment  import SentimentIntensityAnalyzer
 
 
 class SimpleYtCommentAnalyzer:
-    def __init__(self,video_id = "DA7Dtu7eO3E"):
-        self.postive = 0
+    def __init__(self,model, video_id = "DA7Dtu7eO3E"):
+        self.positive = 0
         self.negative = 0
-        self.netural = 0
-        self.sentiment = ""
+        self.neutral = 0
+        self.sentiment_summary = {}
         self.comments = []
         self.stats = {
             "title" : "",
             "views" : 0,
             "likes" : 0,
-            "commentcount" :0,
-            "like_view_ratio": 0.0,  
-            "comment_view_ratio": 0.0,
-        }
+            "commentcount" :0  
+            }
+
+        self.top_five_comments = {}
+
         self.video_id = video_id
+        self.model = model
         self.youtube = self.yt_api_build()
-        self.sid= SentimentIntensityAnalyzer()
+        self.sid_obj = SentimentIntensityAnalyzer()
 
     def yt_api_build(self):
         os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
@@ -52,45 +52,49 @@ class SimpleYtCommentAnalyzer:
             val.strip()
         return " ".join(data)
 
-    def getAnalysis(self,score):
-        score=score['compound']
-        if score < 0:
+    def getAnalysis(self,label,text):
+        score = label['label']
+        if score == 'negative':
+            self.top_five_comments[text] = label['probability'][score]
             self.negative += 1
             return 'Negative'
-        elif score == 0:
-            self.netural += 1
+        elif score == 'netural':
+            self.neutral += 1
             return 'Neutral'
         else:
-            self.postive += 1
+            self.top_five_comments[text] = label['probability'][score]
+            self.positive += 1
             return 'Positive'
-    
+
     def get_sentiment(self):
-        if ((self.postive >= self.netural and self.postive >= self.negative) or (self.netural >= self.postive and self.postive >= self.negative)):
-            return "Valid"
+        if ((self.positive >= self.negative or  self.neutral >= self.negative)):
+            self.top_five_comments = sorted( self.top_five_comments.items(), key=lambda x:x[1],reverse=True)
+            return { "sentiment" :"Valid" , "Top_five_comments" : self.top_five_comments[:5] }
         else:
-            return "InValid"
+            self.top_five_comments = sorted( self.top_five_comments.items(), key=lambda x:x[1],reverse=True)
+            return { "sentiment" :"InValid" , "Top_five_comments" : self.top_five_comments[:5] }
     
     def get_summary(self):
         self.get_info_about_video()
         self.stats.update(
             {
-            "Sentiment" : self.sentiment,
+            "Sentiment_summary" : self.sentiment_summary,
             "Scores" : {
-                "postive" : self.postive,
+                "positive" : self.positive,
                 "negative" : self.negative,
-                "netural" : self.netural
+                "neutral" : self.neutral
                 
                 }
             }
         )
         return self.stats
-
+    
     def get_comments_and_sentiment_by_video_id(self):
         """
         """
         nextPageToken = None
         total_comments=0
-        #postive , negative , netural = 0 , 0 , 0
+        #positive , negative , neutral = 0 , 0 , 0
 
         while total_comments<=500:
             request = self.youtube.commentThreads().list(
@@ -107,7 +111,7 @@ class SimpleYtCommentAnalyzer:
                             "comment" : text,
                             "comment_like" : item['snippet']['topLevelComment']['snippet']['likeCount'],
                             "total_reply_Count" : item['snippet']['totalReplyCount'],
-                            "sentiment" : self.getAnalysis(self.sid.polarity_scores(text))
+                            "sentiment" : self.getAnalysis(self.model.sentiment(text, return_probability=True),text)
                 }
 
                 self.comments.append(comment)
@@ -116,6 +120,6 @@ class SimpleYtCommentAnalyzer:
             nextPageToken = response.get('nextPageToken')
             if not nextPageToken:
                 break
-        self.sentiment = self.get_sentiment()
-        print(self.sentiment)
-        return self.comments,self.sentiment
+        self.sentiment_summary = self.get_sentiment()
+        
+
