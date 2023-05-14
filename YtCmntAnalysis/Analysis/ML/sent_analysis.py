@@ -17,8 +17,9 @@ class SimpleYtCommentAnalyzer:
             "commentcount" :0  
             }
 
-        self.top_five_comments = {}
-
+        self.top_five_positive_comments = {}
+        self.top_five_negative_comments = {}
+        self.top_five_comments={}
         self.video_id = video_id
         self.model = model
         self.youtube = self.yt_api_build()
@@ -55,23 +56,23 @@ class SimpleYtCommentAnalyzer:
     def getAnalysis(self,label,text):
         score = label['label']
         if score == 'negative':
-            self.top_five_comments[text] = label['probability'][score]
+            self.top_five_negative_comments[text] = label['probability'][score]
             self.negative += 1
             return 'Negative'
         elif score == 'netural':
             self.neutral += 1
             return 'Neutral'
         else:
-            self.top_five_comments[text] = label['probability'][score]
+            self.top_five_positive_comments[text] = label['probability'][score]
             self.positive += 1
             return 'Positive'
 
     def get_sentiment(self):
         if ((self.positive >= self.negative or  self.neutral >= self.negative)):
-            self.top_five_comments = sorted( self.top_five_comments.items(), key=lambda x:x[1],reverse=True)
+            self.top_five_comments = sorted( self.top_five_positive_comments.items(), key=lambda x:x[1],reverse=True)
             return { "sentiment" :"Valid" , "Top_five_comments" : self.top_five_comments[:5] }
         else:
-            self.top_five_comments = sorted( self.top_five_comments.items(), key=lambda x:x[1],reverse=True)
+            self.top_five_comments = sorted( self.top_five_negative_comments.items(), key=lambda x:x[1],reverse=True)
             return { "sentiment" :"InValid" , "Top_five_comments" : self.top_five_comments[:5] }
     
     def get_summary(self):
