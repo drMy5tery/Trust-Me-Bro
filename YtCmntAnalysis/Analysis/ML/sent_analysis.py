@@ -1,6 +1,5 @@
 import os
 import googleapiclient.discovery
-from vaderSentiment.vaderSentiment  import SentimentIntensityAnalyzer
 
 
 class SimpleYtCommentAnalyzer:
@@ -23,7 +22,6 @@ class SimpleYtCommentAnalyzer:
         self.video_id = video_id
         self.model = model
         self.youtube = self.yt_api_build()
-        self.sid_obj = SentimentIntensityAnalyzer()
 
     def yt_api_build(self):
         os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
