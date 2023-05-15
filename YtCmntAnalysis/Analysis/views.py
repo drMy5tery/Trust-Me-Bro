@@ -12,7 +12,7 @@ from .forms import YouTubeUrlForm
 
 # Create your views here.
 def test(request):
-    myapp_config = apps.get_app_config("Analysis")
+    """myapp_config = apps.get_app_config("Analysis")
     model = myapp_config.tweet_nlp_model
     print(type(model))
     obj = SimpleYtCommentAnalyzer(model, "QwreMeXlFoY")
@@ -21,7 +21,8 @@ def test(request):
     pretty_data = json.dumps(temp, indent=4)
     response = HttpResponse(content_type="text/plain")
     response.content = pretty_data
-    return HttpResponse(response)
+    return HttpResponse(response)"""
+    return render(request,"sample_test.html")
 
 
 class Analview(View):
