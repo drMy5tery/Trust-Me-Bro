@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from Analysis.views import Analview
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('sentanalysis/',include('Analysis.urls')),
+    path('',Analview.as_view(), name='analysis'),
 ]
