@@ -6,7 +6,8 @@ class AnalysisConfig(AppConfig):
     name = 'Analysis'
     def ready(self):
         # Code to execute at the start of the server
-        self.tweet_nlp_model = tweetnlp.load_model('sentiment', multilingual=True)
+        #self.tweet_nlp_model = tweetnlp.load_model('sentiment', multilingual=True)
         print("Tweet NLP model loaded!")
     #def get_tweet_nlp_model(self):
         #return self.tweet_nlp_model
+        
