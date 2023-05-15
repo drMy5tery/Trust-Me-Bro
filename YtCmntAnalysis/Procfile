@@ -1,0 +1,1 @@
+web: gunicorn YtCmntAnalysis.wsgi --log-file -
