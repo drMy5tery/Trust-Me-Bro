@@ -70,6 +70,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'YtCmntAnalysis.wsgi.application'
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
