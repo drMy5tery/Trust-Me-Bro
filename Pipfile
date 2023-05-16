@@ -7,8 +7,9 @@ name = "pypi"
 django = "*"
 djangorestframework = "*"
 google-api-python-client = "*"
-tweetnlp = "*"
 gunicorn = "*"
+transformers = "*"
+scipy = "*"
 
 [dev-packages]
 
