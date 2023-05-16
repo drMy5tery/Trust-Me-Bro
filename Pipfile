@@ -8,8 +8,7 @@ django = "*"
 djangorestframework = "*"
 google-api-python-client = "*"
 gunicorn = "*"
-transformers = "*"
-scipy = "*"
+textblob = "*"
 
 [dev-packages]
 

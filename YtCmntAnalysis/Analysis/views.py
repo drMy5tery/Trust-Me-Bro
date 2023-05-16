@@ -46,10 +46,7 @@ class Analview(View):
 
         data = cache.get("yt_url_id_{}".format(url_id))
         if data is None:
-            myapp_config = apps.get_app_config("Analysis")
-            model = myapp_config.model
-            tokenizer = myapp_config.tokenizer
-            obj = SimpleYtCommentAnalyzer(model, tokenizer, url_id)
+            obj = SimpleYtCommentAnalyzer(url_id)
             obj.get_comments_and_sentiment_by_video_id()
             data = obj.get_summary()
             cache.set("yt_url_id_{}".format(url_id), data, 60*60*24*30) # set cache time for 30 days
