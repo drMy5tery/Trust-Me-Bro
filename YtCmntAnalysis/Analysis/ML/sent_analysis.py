@@ -1,9 +1,10 @@
 import os
 import googleapiclient.discovery
+from scipy.special import softmax
 
 
 class SimpleYtCommentAnalyzer:
-    def __init__(self,model, video_id = "DA7Dtu7eO3E"):
+    def __init__(self,model,tokenizer, video_id = "DA7Dtu7eO3E"):
         self.positive = 0
         self.negative = 0
         self.neutral = 0
@@ -21,6 +22,7 @@ class SimpleYtCommentAnalyzer:
         self.top_five_comments={}
         self.video_id = video_id
         self.model = model
+        self.tokenizer = tokenizer
         self.youtube = self.yt_api_build()
 
     def yt_api_build(self):
@@ -64,6 +66,34 @@ class SimpleYtCommentAnalyzer:
             self.top_five_positive_comments[text] = label['probability'][score]
             self.positive += 1
             return 'Positive'
+        
+    def getAnalysis_for_model_predict(self,label,text):
+        score = label['label']
+        if score == 'negative':
+            self.top_five_negative_comments[text] = label['probability']
+            self.negative += 1
+            return 'Negative'
+        elif score == 'neutral':
+            self.neutral += 1
+            return 'Neutral'
+        else:
+            self.top_five_positive_comments[text] = label['probability']
+            self.positive += 1
+            return 'Positive'
+    
+    def model_predict(self,text):
+        try:
+            result = softmax(self.model(**self.tokenizer(text, return_tensors='pt'))[0][0].detach().numpy())
+            output = {
+                        "negative" : result[0],
+                        "neutral" :  result[1],
+                        "positive" : result[2]
+            }
+            max_pair = max(output.items(), key=lambda x: x[1])
+            return { 'label' : max_pair[0] , 'probability' : float(max_pair[1]) }
+        except Exception as e:
+            return
+    
 
     def get_sentiment(self):
         if ((self.positive >= self.negative or  self.neutral >= self.negative)):
@@ -106,11 +136,14 @@ class SimpleYtCommentAnalyzer:
 
             for item in response['items']:
                 text = self.text_preprocessing(item['snippet']['topLevelComment']['snippet']['textOriginal'])
+                sentiment = self.model_predict(text)
+                if not sentiment:
+                    continue
                 comment = {
                             "comment" : text,
                             "comment_like" : item['snippet']['topLevelComment']['snippet']['likeCount'],
                             "total_reply_Count" : item['snippet']['totalReplyCount'],
-                            "sentiment" : self.getAnalysis(self.model.sentiment(text, return_probability=True),text)
+                            "sentiment" : self.getAnalysis_for_model_predict(sentiment,text)
                 }
 
                 self.comments.append(comment)

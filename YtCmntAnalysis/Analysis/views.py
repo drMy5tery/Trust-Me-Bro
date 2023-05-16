@@ -38,7 +38,6 @@ class Analview(View):
         if form.is_valid():
             url = form.cleaned_data["url"]
             video_comment_info = self.get_analysis(url)
-            # print(video_comment_info)
             return JsonResponse(video_comment_info)
         return render(request, self.template_name, {"form": form})
 
@@ -48,12 +47,13 @@ class Analview(View):
         data = cache.get("yt_url_id_{}".format(url_id))
         if data is None:
             myapp_config = apps.get_app_config("Analysis")
-            model = myapp_config.tweet_nlp_model
-            obj = SimpleYtCommentAnalyzer(model, url_id)
+            model = myapp_config.model
+            tokenizer = myapp_config.tokenizer
+            obj = SimpleYtCommentAnalyzer(model, tokenizer, url_id)
             obj.get_comments_and_sentiment_by_video_id()
             data = obj.get_summary()
             cache.set("yt_url_id_{}".format(url_id), data, 60*60*24*30) # set cache time for 30 days
-        # print(temp)
+        # print(data)
         return data
 
     def get_yt_video_id(self, url):
