@@ -56,7 +56,7 @@ class SimpleYtCommentAnalyzer:
         elif score > 0:
             label = "positive"
         else:
-            label = "neutral"
+            label = "negative"
         return {"label": label, "score": score}
 
     def getAnalysis(self, label, text):
