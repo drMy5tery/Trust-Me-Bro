@@ -1,12 +1,26 @@
 {
-    "builds": [{
-    "src": "YtCmntAnalysis/wsgi.py",
-    "use": "@vercel/python"
-}],
-    "routes": [
+  "version": 2,
+  "builds": [
     {
-    "src":"/(.*)",
-    "dest": "YtCmntAnalysis/wsgi.py"
+      "src": "YtCmntAnalysis/wsgi.py",
+      "use": "@vercel/python"
+    },
+    {
+      "src": "build_files.sh",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "staticfiles_build"
+      }
     }
-]
+  ],
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "YtCmntAnalysis/wsgi.py"
+    }
+  ]
 }
