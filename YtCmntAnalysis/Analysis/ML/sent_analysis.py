@@ -36,7 +36,7 @@ class SimpleYtCommentAnalyzer:
         self.stats["title"] = response["items"][0]["snippet"]["title"]
         self.stats["channel_name"] = response["items"][0]["snippet"]["channelTitle"]
         self.stats["thumbnail"] = response["items"][0]["snippet"]["thumbnails"][
-            "default"
+            "standard"
         ]["url"]
         self.stats["views"] = response["items"][0]["statistics"]["viewCount"]
         self.stats["likes"] = response["items"][0]["statistics"]["likeCount"]
