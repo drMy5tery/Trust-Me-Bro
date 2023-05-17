@@ -1,6 +1,6 @@
 import os
 import googleapiclient.discovery
-from textblob import TextBlob
+import requests
 
 
 class SimpleYtCommentAnalyzer:
@@ -16,6 +16,8 @@ class SimpleYtCommentAnalyzer:
         self.top_five_negative_comments = {}
         self.top_five_comments = {}
         self.video_id = video_id
+        self.API_URL = "https://api-inference.huggingface.co/models/cardiffnlp/twitter-roberta-base-sentiment"
+        self.headers = {"Authorization": "Bearer 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"}
         self.youtube = self.yt_api_build()
 
     def yt_api_build(self):
@@ -49,15 +51,21 @@ class SimpleYtCommentAnalyzer:
             val.strip()
         return " ".join(data)
 
-    def generate_score(self, text):
-        score = TextBlob(text).sentiment.polarity
-        if score == 0:
-            label = "neutral"
-        elif score > 0:
-            label = "positive"
-        else:
-            label = "neutral"
-        return {"label": label, "score": score}
+    def query(self,text):
+        payload = {
+        "inputs": text,
+        }
+        response = requests.post(self.API_URL, headers=self.headers, json=payload)
+        data = response.json()
+        sorted_output = sorted(data[0], key=lambda d: d['score'], reverse=True)
+        prediction = sorted_output[0]
+        label_mapping = {
+        'LABEL_0': 'negative',
+        'LABEL_1': 'neutral',
+        'LABEL_2': 'positive'
+        }
+        prediction['label'] = label_mapping[prediction['label']]
+        return prediction
 
     def getAnalysis(self, label, text):
         score = label["label"]
@@ -115,11 +123,11 @@ class SimpleYtCommentAnalyzer:
         total_comments = 0
         # positive , negative , neutral = 0 , 0 , 0
 
-        while total_comments <= 500:
+        while total_comments <= 5:
             request = self.youtube.commentThreads().list(
                 part="snippet",
                 videoId=self.video_id,
-                maxResults=min(100, 500 - total_comments),
+                maxResults=min(5, 5 - total_comments),
                 pageToken=nextPageToken,
             )
             response = request.execute()
@@ -128,7 +136,7 @@ class SimpleYtCommentAnalyzer:
                 text = self.text_preprocessing(
                     item["snippet"]["topLevelComment"]["snippet"]["textOriginal"]
                 )
-                sentiment = self.generate_score(text)
+                sentiment = self.query(text)
          
                 comment = {
                     "comment": text,
