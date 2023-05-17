@@ -38,9 +38,9 @@ class SimpleYtCommentAnalyzer:
         self.stats["thumbnail"] = response["items"][0]["snippet"]["thumbnails"][
             "standard"
         ]["url"]
-        self.stats["views"] = response["items"][0]["statistics"]["viewCount"]
-        self.stats["likes"] = response["items"][0]["statistics"]["likeCount"]
-        self.stats["commentcount"] = response["items"][0]["statistics"]["commentCount"]
+        self.stats["views"] = self.format_number_with_suffix(int(response["items"][0]["statistics"]["viewCount"]))
+        self.stats["likes"] = self.format_number_with_suffix(int(response["items"][0]["statistics"]["likeCount"]))
+        self.stats["commentcount"] = self.format_number_with_suffix(int(response["items"][0]["statistics"]["commentCount"]))
 
     def text_preprocessing(self, text):
         text.lower()
@@ -48,6 +48,15 @@ class SimpleYtCommentAnalyzer:
         for val in data:
             val.strip()
         return " ".join(data)
+    def format_number_with_suffix(self,number):
+        suffixes = ['', 'k', 'm', 'b', 't']  # List of suffixes for thousands, millions, billions, trillion
+        magnitude = 0
+
+        while abs(number) >= 1000:
+            number /= 1000.0
+            magnitude += 1
+
+        return f'{number:.1f}{suffixes[magnitude]}'
 
     def generate_score(self, text):
         score = TextBlob(text).sentiment.polarity
@@ -94,7 +103,7 @@ class SimpleYtCommentAnalyzer:
                 "sentiment": "InValid",
                 "Top_five_comments": self.top_five_comments[:5],
             }
-
+    
     def get_summary(self):
         self.get_info_about_video()
         self.stats.update(
