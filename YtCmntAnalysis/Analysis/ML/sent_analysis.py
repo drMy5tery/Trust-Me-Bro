@@ -66,6 +66,16 @@ class SimpleYtCommentAnalyzer:
         }
         prediction['label'] = label_mapping[prediction['label']]
         return prediction
+      
+    def generate_score(self, text):
+        score = TextBlob(text).sentiment.polarity
+        if score == 0:
+            label = "neutral"
+        elif score > 0:
+            label = "positive"
+        else:
+            label = "negative"
+        return {"label": label, "score": score}
 
     def getAnalysis(self, label, text):
         score = label["label"]
