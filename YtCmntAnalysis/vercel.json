@@ -1,12 +1,13 @@
 {
-    "rewrites": [
-        { "source": "/Analysis/static/(.*)", "destination": "/vercel_static/$1" }
-      ],
     "builds": [{
     "src": "YtCmntAnalysis/wsgi.py",
     "use": "@vercel/python"
 }],
     "routes": [
+    {
+        "src": "/Analysis/static/(.*)",
+        "dest": "/static/$1"
+    },
     {
     "src":"/(.*)",
     "dest": "YtCmntAnalysis/wsgi.py"
