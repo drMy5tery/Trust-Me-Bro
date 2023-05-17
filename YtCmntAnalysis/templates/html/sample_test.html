@@ -30,11 +30,31 @@
       select:focus {
         outline: none;
       }
+      .loader {
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid #374650;
+        width: 120px;
+        height: 120px;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+      }
+
+      /* Safari */
+      @-webkit-keyframes spin {
+        0% { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(360deg); }
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
     </style>
   </head>
   <body>
     <div class="bg-cover bg-center" style="background-image: url('{% static "/img/Landing_Page.png"%}')">
-      <div class="h-screen w-full p-5 md:p-10">
+      <div class="h-screen w-full p-5 md:p-10 overflow-auto">
         <div class="h-1/4 md:h-1/2">
           <div class="flex justify-end flex-row h-1/2">
             <div
@@ -46,11 +66,14 @@
               </h1>
             </div>
             <div class="basis-1/12">
-              <img
+              <a href="https://github.com/drMy5tery/Trust-Me-Bro">
+                <img
                 src="https://cdn-icons-png.flaticon.com/512/5968/5968866.png"
                 width="40"
                 height="40"
-              />
+                />
+
+              </a> 
             </div>
           </div>
           <!-- search bar -->
@@ -84,16 +107,21 @@
         </div>
         <hr>
 
-        <div class="h-3/4 md:h-1/2">
+        <div id="loader" class="basis-full p-5 collapse" align="center">
+          <div class="loader">
+          </div>
+        </div>
+
+        <div class="h-3/4 md:h-1/2" id="output">
           <!-- output section -->
-          <div class="flex flex-col md:flex-row m-2 md:m-5 h-full">
-            <div class="basis-4/12 collapse md:visible font-mono m-2">
+          <div class="flex flex-col md:flex-row m-2 md:m-5 h-full gap-4">
+            <div class="basis-4/12 grid grid-cols-1 place-content-center font-mono bg-[#0f0f0f] rounded-2xl p-5">
               <div align="center">
                 <img
                     id="thumbnail"
                     src="https://i.ytimg.com/vi/BjyWXiZrSlQ/default.jpg"
-                    width="300"
-                    height="300"
+                    width="250"
+                    height="250"
                   />
               </div>
               <div class="text-white text-base" id="video_name">
@@ -103,15 +131,15 @@
                 Django road              
               </div>
               <div class="flex justify-between text-white text-base my-2 px-2 bg-[#272727] rounded-md" align="center">
-                <div class="flex flex row">
+                <div class="flex flex row p-1">
                   <i class="material-icons">recommend</i>
                   <div id="views">98822</div>
                 </div>
-                <div class="flex flex row">
+                <div class="flex flex row p-1">
                   <i class="material-icons">visibility</i>
                   <div id="likes">98822</div>
                 </div>
-                <div class="flex flex row">
+                <div class="flex flex row p-1">
                   <i class="material-icons">chat</i>
                   <div id="comments">98822</div>
                 </div>
@@ -119,12 +147,12 @@
             </div>
 
             <div class="basis-full md:basis-8/12">
-              <div class="bg-[#141223] h-full rounded-2xl p-5 font-mono">
-                <div class="text-white text-lg" id="summary_info">
+              <div class="bg-[#141223] h-full rounded-2xl p-5 font-mono font-light grid grid-cols-1 place-content-center">
+                <div class="text-white sm:text-sm md:text-base" id="summary_info">
                   summary : Yeah bro it's a valid video!!
                 </div>
                 <br>
-                <div class="text-white text-lg" id="summary_text">
+                <div class="text-white sm:text-sm md:text-base" id="summary_text">
                   comments with strong reactions :
 
                   I loved this. Exactly what I wanted, and so easy to follow. Thank you! - Score: 0.991959273815155
@@ -141,13 +169,17 @@
     </div>
   </body>
   <script type='text/javascript'>
-    var link = document.getElementById("input");
+    document.getElementById("output").style.visibility = "collapse"; 
 
+    var link = document.getElementById("input");
     var element = document.getElementById("search");
     element.onclick = function() 
     { 
       url = link.value
-      $.ajax({
+      if (url && url != 'Link') {
+        document.getElementById("loader").style.visibility = "visible"; 
+
+        $.ajax({
             type: 'POST',
             url: analysisUrl,
             data: {
@@ -155,7 +187,7 @@
                 'url': url
             },
             success: function(response) {
-              console.log(response)
+              // console.log(response)
 
               const video_name = document.getElementById("video_name");
               const views = document.getElementById("views");
@@ -175,11 +207,32 @@
               thumbnail.src = response['thumbnail']
 
               summary_info.innerHTML = "summary : Yeah bro it's a "+response['Sentiment_summary']['sentiment']+" video!!"
-              summary_text.innerHTML = response['Sentiment_summary']['Top_five_comments']
+              html = "comments with strong reactions : <br/> <ul>";
+                for (var i = 0; i < response.Sentiment_summary.Top_five_comments.length; i++) {
+                    var comment = response.Sentiment_summary.Top_five_comments[i][0];
+                    var score = response.Sentiment_summary.Top_five_comments[i][1];
+                    html += '&#x2022;' + comment + ' - Score: ' + score + ".<br/>";
+                }
+              html += "</ul>";
+              summary_text.innerHTML = html
 
 
             }
         });
+
+        document.getElementById("loader").style.display = "none"; 
+        document.getElementById("output").style.visibility = "visible"; 
+        
+
+      }
+      
+    }
+
+    var close_element = document.getElementById("close");
+    close_element.onclick = function()  
+    {
+      var input = document.getElementById("input");
+      input.value = "Link"
     }
 
   </script>
