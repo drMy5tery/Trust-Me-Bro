@@ -13,7 +13,7 @@
         var csrfToken = '{{ csrf_token }}';
         var animationInstance;
     </script>
-    <script src="{% static 'js/sample_test_loading_animation.js' %}"></script>
+    <script src="{% static '/js/sample_test_loading_animation.js' %}"></script>
     <link
       rel="preload"
       as="style"
@@ -234,7 +234,7 @@
     close_element.onclick = function()  
     {
       var input = document.getElementById("input");
-      input.value = "Link"
+      input.value = ""
     }
 
   </script>
