@@ -63,7 +63,7 @@
                 BRO
               </h1>
             </div>
-            <div class="basis-1/12">
+            <div class="basis-1/12 m-2 md:m-5">
               <a href="https://github.com/drMy5tery/Trust-Me-Bro">
                 <img
                 src="https://cdn-icons-png.flaticon.com/512/5968/5968866.png"
@@ -79,25 +79,29 @@
             <div
               class="flex self-center justify-end flex-row bg-white w-11/12 md:w-6/12 rounded-md h-14"
             >
-              <div class="basis-1/5 h-14 p-2" align="center" id="search"  autocomplete="on" style = "cursor: pointer;">
+              <div class="basis-1/5 h-14 p-2"  id="search"  autocomplete="on" style = "cursor: pointer;">
                 {% csrf_token %}
-                <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Search_Icon.svg/1024px-Search_Icon.svg.png"
-                  width="40"
-                  height="40"
-                />
+                <div align="center">
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Search_Icon.svg/1024px-Search_Icon.svg.png"
+                    width="40"
+                    height="40"
+                  />
+                </div>
               </div>
               <input
                 id="input"
-                class="basis-full h-14 p-5 font-medium"
+                class="basis-full h-14 p-5 font-semibold text-sm md:text-base"
                 placeholder="Link"
               />
-              <div class="basis-1/5 h-14 p-2.5" align="center" id="close">
-                <img
-                  src="https://logowik.com/content/uploads/images/close1437.jpg"
+              <div class="basis-1/5 h-14 p-2" id="close">
+                <div align="center">
+                  <img
+                  src="https://cdn4.iconfinder.com/data/icons/menu-phone-glyph/32/menu_glyph_43-512.png"
                   width="40"
                   height="40"
-                />
+                  />
+                </div>
               </div>
 
             </div>
@@ -106,7 +110,6 @@
         <hr>
 
         <div id="loader" class="basis-full p-5 collapse" align="center">
-         
         </div>
 
         <div class="h-3/4 md:h-1/2" id="output">
