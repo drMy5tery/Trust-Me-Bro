@@ -112,7 +112,7 @@
         <div class="h-3/4 md:h-1/2" id="output">
           <!-- output section -->
           <div class="flex flex-col md:flex-row m-2 md:m-5 h-full gap-4">
-            <div class="basis-4/12 grid grid-cols-1 place-content-center font-mono bg-[#0f0f0f] rounded-2xl p-5">
+            <div class="basis-4/12 grid grid-cols-1 place-content-center h-full font-mono bg-[#0f0f0f] rounded-2xl p-5">
               <div align="center">
                 <img
                     id="thumbnail"
@@ -127,16 +127,16 @@
               <div class="text-white text-xl" id="video_channel">
                 Django road              
               </div>
-              <div class="flex justify-between text-white text-base my-2 px-2 bg-[#272727] rounded-md" align="center">
-                <div class="flex flex row p-1">
+              <div class="flex justify-between text-white text-base my-2 px-2 bg-[#272727] rounded-md overflow-x-scroll" align="center">
+                <div class="flex row p-1">
                   <i class="material-icons">recommend</i>
                   <div id="views">98822</div>
                 </div>
-                <div class="flex flex row p-1">
+                <div class="flex row p-1">
                   <i class="material-icons">visibility</i>
                   <div id="likes">98822</div>
                 </div>
-                <div class="flex flex row p-1">
+                <div class="flex row p-1">
                   <i class="material-icons">chat</i>
                   <div id="comments">98822</div>
                 </div>
@@ -144,11 +144,11 @@
             </div>
               
 
-            <div class="basis-full md:basis-8/12" >
-              <div class="bg-[#141223] h-full rounded-2xl p-5 font-mono font-light grid grid-cols-1 place-content-center" id="animationWindow" style="display: none;">
+            <div class="basis-full md:basis-8/12 bg-[#141223] rounded-2xl h-full overflow-scroll" >
+              <div class="p-5 font-mono font-light" id="animationWindow" style="display: none;">
 
               </div>
-              <div class="bg-[#141223] h-full rounded-2xl p-5 font-mono font-light grid grid-cols-1 place-content-center" id="result-container" style="display: none;">
+              <div class="p-5 font-mono font-light" id="result-container" style="display: none;">
                 <div class="text-white sm:text-sm md:text-base" id="summary_info">
                   summary : Yeah bro it's a valid video!!
                 </div>
