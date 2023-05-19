@@ -33,14 +33,17 @@ class SimpleYtCommentAnalyzer:
             part="snippet,statistics", id=self.video_id
         )
         response = request.execute()
-        self.stats["title"] = response["items"][0]["snippet"]["title"]
-        self.stats["channel_name"] = response["items"][0]["snippet"]["channelTitle"]
-        self.stats["thumbnail"] = response["items"][0]["snippet"]["thumbnails"][
-            "standard"
-        ]["url"]
-        self.stats["views"] = self.format_number_with_suffix(int(response["items"][0]["statistics"]["viewCount"]))
-        self.stats["likes"] = self.format_number_with_suffix(int(response["items"][0]["statistics"]["likeCount"]))
-        self.stats["commentcount"] = self.format_number_with_suffix(int(response["items"][0]["statistics"]["commentCount"]))
+        if int(response["items"][0]["statistics"]["commentCount"])<500:
+            raise Exception("InSufficient Data to make an Analysis")
+        else:
+            self.stats["title"] = response["items"][0]["snippet"]["title"]
+            self.stats["channel_name"] = response["items"][0]["snippet"]["channelTitle"]
+            self.stats["thumbnail"] = response["items"][0]["snippet"]["thumbnails"][
+                "standard"
+            ]["url"]
+            self.stats["views"] = self.format_number_with_suffix(int(response["items"][0]["statistics"]["viewCount"]))
+            self.stats["likes"] = self.format_number_with_suffix(int(response["items"][0]["statistics"]["likeCount"]))
+            self.stats["commentcount"] = self.format_number_with_suffix(int(response["items"][0]["statistics"]["commentCount"]))
 
     def text_preprocessing(self, text):
         text.lower()
