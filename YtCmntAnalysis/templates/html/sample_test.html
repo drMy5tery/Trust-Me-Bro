@@ -16,7 +16,7 @@
       var csrfToken = "{{ csrf_token }}";
       var animationInstance;
     </script>
-    <script src="{% static '/js/sample_test_loading_animation.js' %}"></script>
+    <script src="{% static '/js/utils.js' %}"></script>
     <link
       rel="preload"
       as="style"
@@ -29,34 +29,6 @@
       textarea:focus,
       select:focus {
         outline: none;
-      }
-      .loader {
-        border: 16px solid #f3f3f3;
-        border-radius: 50%;
-        border-top: 16px solid #374650;
-        width: 120px;
-        height: 120px;
-        -webkit-animation: spin 2s linear infinite; /* Safari */
-        animation: spin 2s linear infinite;
-      }
-
-      /* Safari */
-      @-webkit-keyframes spin {
-        0% {
-          -webkit-transform: rotate(0deg);
-        }
-        100% {
-          -webkit-transform: rotate(360deg);
-        }
-      }
-
-      @keyframes spin {
-        0% {
-          transform: rotate(0deg);
-        }
-        100% {
-          transform: rotate(360deg);
-        }
       }
     </style>
   </head>
@@ -125,10 +97,8 @@
         </div>
         <hr />
 
-        <div id="loader" class="basis-full p-5 collapse" align="center"></div>
-
         <!-- output section -->
-        <div class="h-3/4 md:h-1/2" id="output">
+        <div class="h-3/4 md:h-1/2 collapse" id="output">
           <div class="flex flex-col md:flex-row m-2 md:m-5 h-full gap-4">
             <div
               class="basis-4/12 grid grid-cols-1 place-content-center h-full font-mono bg-[#0f0f0f] rounded-2xl p-5"
@@ -205,91 +175,5 @@
         </div>
       </div>
     </div>
-    <script type="text/javascript">
-      document.getElementById("output").style.visibility = "collapse";
-
-      var link = document.getElementById("input");
-      var element = document.getElementById("search");
-      element.onclick = function () {
-        url = link.value;
-        if (url && url != "Link") {
-          //document.getElementById("loader").style.visibility = "visible";
-          startAnimation();
-          $.ajax({
-            type: "POST",
-            url: analysisUrl,
-            data: {
-              csrfmiddlewaretoken: csrfToken,
-              url: url,
-            },
-            success: function (response) {
-              // console.log(response)
-              document.getElementById("result-container").style.display =
-                "block";
-              document.getElementById("animationWindow").style.display = "none";
-              const video_name = document.getElementById("video_name");
-              const views = document.getElementById("views");
-              const likes = document.getElementById("likes");
-              const comments = document.getElementById("comments");
-              const video_channel = document.getElementById("video_channel");
-              var thumbnail = document.getElementById("thumbnail");
-
-              const summary_info = document.getElementById("summary_info");
-              const summary_text = document.getElementById("summary_text");
-
-              video_name.innerHTML = response["title"];
-              views.innerHTML = response["views"];
-              likes.innerHTML = response["likes"];
-              comments.innerHTML = response["commentcount"];
-              video_channel.innerHTML = response["channel_name"];
-              thumbnail.src = response["thumbnail"];
-
-              if ("Sentiment_summary" in response["video_analysis"]) {
-                summary_info.innerHTML =
-                  "summary : Yeah bro it's a " +
-                  response["video_analysis"]["Sentiment_summary"]["sentiment"] +
-                  " video!!";
-                html = "comments with strong reactions : <br/> <ul>";
-                for (
-                  var i = 0;
-                  i <
-                  response.video_analysis.Sentiment_summary.Top_five_comments
-                    .length;
-                  i++
-                ) {
-                  var comment =
-                    response.video_analysis.Sentiment_summary.Top_five_comments[
-                      i
-                    ][0];
-                  var score =
-                    response.video_analysis.Sentiment_summary.Top_five_comments[
-                      i
-                    ][1];
-                  html +=
-                    "&#x2022;" + comment + " - Score: " + score + ".<br/>";
-                }
-                html += "</ul>";
-                summary_text.innerHTML = html;
-              } else {
-                summary_info.innerHTML =
-                  "Sorry bro, " +
-                  response["video_analysis"]["Error"] +
-                  " for this video.";
-                summary_text.innerHTML = "";
-              }
-            },
-          });
-
-          document.getElementById("loader").style.display = "none";
-          document.getElementById("output").style.visibility = "visible";
-        }
-      };
-
-      var close_element = document.getElementById("close");
-      close_element.onclick = function () {
-        var input = document.getElementById("input");
-        input.value = "";
-      };
-    </script>
   </body>
 </html>
