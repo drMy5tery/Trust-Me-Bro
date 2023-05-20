@@ -3,7 +3,7 @@
 <html>
   <head>
     <title>Trust Me Bro</title>
-    <link rel="icon" href="{% static '/img/2.ico' %}" type="image/icon type">
+    <link rel="icon" href="{% static '/img/2.ico' %}" type="image/icon type" />
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -32,6 +32,9 @@
       select:focus {
         outline: none;
       }
+      #mainbody {
+        background-image: url("{% static 'img/Landing_Page.png' %}");
+      }
       /* For Webkit-based browsers (Chrome, Safari and Opera) */
       .scrollbar-hide::-webkit-scrollbar {
         display: none;
@@ -45,10 +48,7 @@
     </style>
   </head>
   <body>
-    <div
-      class="bg-cover bg-center"
-      style="background-image: url('{% static 'img/Landing_Page.png' %}')"
-    >
+    <div class="bg-cover bg-center" id="mainbody">
       <div class="h-screen w-full p-7 md:p-10 overflow-auto scrollbar-hide">
         <div class="h-1/4 md:h-1/2">
           <!-- title card -->
