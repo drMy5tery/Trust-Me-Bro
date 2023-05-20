@@ -50,13 +50,13 @@
   <body>
     <div class="bg-cover bg-center" id="mainbody">
       <div class="h-screen w-full p-7 md:p-10 overflow-auto scrollbar-hide">
-        <div class="h-1/4 md:h-1/2">
+        <div class="h-1/4 md:h-2/5">
           <!-- title card -->
-          <div class="flex justify-end flex-row h-1/2">
-            <div
-              class="basis-11/12 text-white text-5xl md:text-7xl font-sans font-extrabold"
-            >
-              <h1>
+          <div class="flex justify-end flex-row h-1/2 md:h-2/5">
+            <div class="basis-11/12">
+              <h1
+                class="text-white text-5xl md:text-7xl font-sans font-extrabold"
+              >
                 TRUST ME <br />
                 BRO
               </h1>
@@ -73,9 +73,9 @@
           </div>
 
           <!-- search bar -->
-          <div class="flex justify-center h-1/2">
+          <div class="flex justify-center h-1/2 md:h-2/5">
             <div
-              class="flex self-center justify-end flex-row bg-white w-11/12 md:w-6/12 rounded-md h-14"
+              class="flex self-center justify-end flex-row bg-white w-11/12 md:w-6/12 rounded-md h-14 shadow-md shadow-black"
             >
               <div
                 class="basis-1/5 h-14 p-1 md:p-2"
@@ -108,58 +108,65 @@
               </div>
             </div>
           </div>
-        </div>
-
-        <!-- dividing line -->
-        <div>
-          <hr class="mx-auto w-1/5 h-3 bg-orange-600 dark:bg-orange-600" />
-          <hr class="h-0.5 bg-orange-600 border-0 rounded" />
+          <!-- dividing line -->
+          <div class="h-1/5 collapse md:visible">
+            <hr
+              class="mx-auto w-1/5 h-3 bg-orange-600 dark:bg-orange-600 shadow-lg shadow-orange-600"
+            />
+            <hr
+              class="h-0.5 bg-orange-600 border-0 rounded shadow-lg shadow-orange-600"
+            />
+          </div>
         </div>
 
         <!-- output section -->
-        <div class="h-3/4 md:h-1/2 collapse" id="output">
-          <div class="flex flex-col md:flex-row m-2 md:m-5 h-full gap-4">
+        <div class="h-3/4 md:h-3/5 collapse" id="output">
+          <div class="flex flex-col md:flex-row h-full gap-4">
             <div
-              class="basis-4/12 grid grid-cols-1 place-content-center h-full font-mono bg-[#0f0f0f] rounded-2xl p-5"
+              class="h-1/5 md:h-full basis-4/12 font-mono bg-[#0f0f0f] rounded-2xl p-5 overflow-scroll"
             >
-              <div align="center">
+              <div class="h-1/2 p-3">
                 <img
                   id="thumbnail"
                   src="https://i.ytimg.com/vi/BjyWXiZrSlQ/default.jpg"
                   width="250"
                   height="250"
+                  class="object-cover h-full w-full rounded-md border-2 border-orange-500 shadow-md shadow-orange-600"
                 />
               </div>
-              <div class="text-white text-base" id="video_name">
-                Turning a Figma Design into a Real Website using HTML and CSS
-              </div>
-              <div class="text-white text-xl" id="video_channel">
-                Django road
-              </div>
-              <div
-                class="flex justify-between text-white text-base my-2 px-2 bg-[#272727] rounded-md overflow-x-scroll"
-                align="center"
-              >
-                <div class="flex row p-1">
-                  <i class="material-icons">recommend</i>
-                  <div id="views">98822</div>
+
+              <div class="h-1/2 p-3">
+                <div class="text-white text-base" id="video_name">
+                  Turning a Figma Design into a Real Website using HTML and CSS
                 </div>
-                <div class="flex row p-1">
-                  <i class="material-icons">visibility</i>
-                  <div id="likes">98822</div>
+                <div class="text-white text-xl" id="video_channel">
+                  Django road
                 </div>
-                <div class="flex row p-1">
-                  <i class="material-icons">chat</i>
-                  <div id="comments">98822</div>
+                <div
+                  class="flex justify-between text-white text-base my-2 px-2 bg-[#272727] rounded-md overflow-x-scroll"
+                  align="center"
+                >
+                  <div class="flex row p-1">
+                    <i class="material-icons">recommend</i>
+                    <div id="views">98822</div>
+                  </div>
+                  <div class="flex row p-1">
+                    <i class="material-icons">visibility</i>
+                    <div id="likes">98822</div>
+                  </div>
+                  <div class="flex row p-1">
+                    <i class="material-icons">chat</i>
+                    <div id="comments">98822</div>
+                  </div>
                 </div>
               </div>
             </div>
 
             <div
-              class="basis-full md:basis-8/12 bg-[#141223] rounded-2xl h-full overflow-scroll"
+              class="h-4/5 md:h-full basis-8/12 bg-[#141223] rounded-2xl h-full overflow-scroll"
             >
               <div
-                class="p-5 font-mono font-light h-full"
+                class="p-5 h-full"
                 id="animationWindow"
                 style="display: none"
               ></div>

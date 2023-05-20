@@ -80,6 +80,13 @@ $(window).on("load", function () {
           const video_channel = document.getElementById("video_channel");
           var thumbnail = document.getElementById("thumbnail");
 
+          video_name.innerHTML = response["title"];
+          views.innerHTML = response["views"];
+          likes.innerHTML = response["likes"];
+          comments.innerHTML = response["commentcount"];
+          video_channel.innerHTML = response["channel_name"];
+          thumbnail.src = response["thumbnail"];
+
           const summary_info = document.getElementById("summary_info");
           const summary_text = document.getElementById("summary_text");
 
@@ -87,14 +94,6 @@ $(window).on("load", function () {
             response.hasOwnProperty("video_analysis") &&
             response["video_analysis"].hasOwnProperty("Sentiment_summary")
           ) {
-
-            video_name.innerHTML = response["title"];
-            views.innerHTML = response["views"];
-            likes.innerHTML = response["likes"];
-            comments.innerHTML = response["commentcount"];
-            video_channel.innerHTML = response["channel_name"];
-            thumbnail.src = response["thumbnail"];
-
             summary_info.innerHTML =
               "summary : Yeah bro it's a " +
               response["video_analysis"]["Sentiment_summary"]["sentiment"] +
@@ -119,12 +118,18 @@ $(window).on("load", function () {
             }
             html += "</ul>";
             summary_text.innerHTML = html;
-          } else {
+          } else if (
+            response["video_analysis"]["Error"] ===
+            "InSufficient Data to make an Analysis"
+          ) {
             summary_info.innerHTML =
               "Sorry bro, " +
               response["video_analysis"]["Error"] +
               " for this video.";
             summary_text.innerHTML = "";
+          } else {
+            document.getElementById("output").style.visibility = "collapse";
+            alert("Comments disabled for this video!");
           }
         },
       });
