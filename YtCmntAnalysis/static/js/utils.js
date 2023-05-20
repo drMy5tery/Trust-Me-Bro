@@ -52,13 +52,14 @@ function startAnimation() {
   }
   animationInstance = anim;
 }
-$(window).on('load', function() {
+$(window).on("load", function () {
   document.getElementById("output").style.visibility = "collapse";
 
   var link = document.getElementById("input");
   var element = document.getElementById("search");
   element.onclick = function () {
     const youtubeUrl = link.value;
+
     if (youtubeUrl && hasYouTubeVideoId(youtubeUrl)) {
       startAnimation();
       $.ajax({
@@ -69,7 +70,7 @@ $(window).on('load', function() {
           url: youtubeUrl,
         },
         success: function (response) {
-          // console.log(response)
+          // console.log(response, hasYouTubeVideoId(youtubeUrl));
           document.getElementById("result-container").style.display = "block";
           document.getElementById("animationWindow").style.display = "none";
           const video_name = document.getElementById("video_name");
@@ -82,14 +83,18 @@ $(window).on('load', function() {
           const summary_info = document.getElementById("summary_info");
           const summary_text = document.getElementById("summary_text");
 
-          video_name.innerHTML = response["title"];
-          views.innerHTML = response["views"];
-          likes.innerHTML = response["likes"];
-          comments.innerHTML = response["commentcount"];
-          video_channel.innerHTML = response["channel_name"];
-          thumbnail.src = response["thumbnail"];
+          if (
+            response.hasOwnProperty("video_analysis") &&
+            response["video_analysis"].hasOwnProperty("Sentiment_summary")
+          ) {
 
-          if ("Sentiment_summary" in response["video_analysis"]) {
+            video_name.innerHTML = response["title"];
+            views.innerHTML = response["views"];
+            likes.innerHTML = response["likes"];
+            comments.innerHTML = response["commentcount"];
+            video_channel.innerHTML = response["channel_name"];
+            thumbnail.src = response["thumbnail"];
+
             summary_info.innerHTML =
               "summary : Yeah bro it's a " +
               response["video_analysis"]["Sentiment_summary"]["sentiment"] +

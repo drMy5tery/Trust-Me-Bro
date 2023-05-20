@@ -22,7 +22,7 @@ def test(request):
     response = HttpResponse(content_type="text/plain")
     response.content = pretty_data
     return HttpResponse(response)"""
-    return render(request,"sample_test.html")
+    return render(request, "sample_test.html")
 
 
 class Analview(View):
@@ -50,10 +50,11 @@ class Analview(View):
             try:
                 obj.get_comments_and_sentiment_by_video_id()
                 data = obj.get_summary()
-                cache.set("yt_url_id_{}".format(url_id), data, 60*60*24*30) # set cache time for 30 days
+                cache.set(
+                    "yt_url_id_{}".format(url_id), data, 60 * 60 * 24 * 30
+                )  # set cache time for 30 days
             except Exception as e:
-                print("Error Type: "+str(e))
-                data={"Error":str(e)}
+                data = {"video_analysis": {"Error": str(e)}}
         # print(data)
         return data
 
