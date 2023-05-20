@@ -30,6 +30,16 @@
       select:focus {
         outline: none;
       }
+      /* For Webkit-based browsers (Chrome, Safari and Opera) */
+      .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+      }
+
+      /* For IE, Edge and Firefox */
+      .scrollbar-hide {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+      }
     </style>
   </head>
   <body>
@@ -37,8 +47,9 @@
       class="bg-cover bg-center"
       style="background-image: url('{% static 'img/Landing_Page.png' %}')"
     >
-      <div class="h-screen w-full p-5 md:p-10 overflow-auto">
+      <div class="h-screen w-full p-7 md:p-10 overflow-auto scrollbar-hide">
         <div class="h-1/4 md:h-1/2">
+          <!-- title card -->
           <div class="flex justify-end flex-row h-1/2">
             <div
               class="basis-11/12 text-white text-5xl md:text-7xl font-sans font-extrabold"
@@ -58,13 +69,14 @@
               </a>
             </div>
           </div>
+
           <!-- search bar -->
           <div class="flex justify-center h-1/2">
             <div
               class="flex self-center justify-end flex-row bg-white w-11/12 md:w-6/12 rounded-md h-14"
             >
               <div
-                class="basis-1/5 h-14 p-2"
+                class="basis-1/5 h-14 p-1 md:p-2"
                 id="search"
                 autocomplete="on"
                 style="cursor: pointer"
@@ -80,10 +92,10 @@
               </div>
               <input
                 id="input"
-                class="basis-full h-14 p-5 font-semibold text-sm md:text-base"
+                class="basis-full h-14 p-1 md:p-5 font-semibold text-sm md:text-base"
                 placeholder="Link"
               />
-              <div class="basis-1/5 h-14 p-2" id="close">
+              <div class="basis-1/5 h-14 p-1 md:p-2" id="close">
                 <div align="center">
                   <img
                     src="https://cdn4.iconfinder.com/data/icons/menu-phone-glyph/32/menu_glyph_43-512.png"
@@ -95,7 +107,12 @@
             </div>
           </div>
         </div>
-        <hr />
+
+        <!-- dividing line -->
+        <div>
+          <hr class="mx-auto w-1/5 h-3 bg-orange-600 dark:bg-orange-600" />
+          <hr class="h-0.5 bg-orange-600 border-0 rounded" />
+        </div>
 
         <!-- output section -->
         <div class="h-3/4 md:h-1/2 collapse" id="output">

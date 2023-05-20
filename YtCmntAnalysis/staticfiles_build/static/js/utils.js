@@ -53,7 +53,6 @@ function hasYouTubeVideoId(url) {
     animationInstance = anim;
   }
   $(window).on('load', function() {
-    console.log("asdas")
     document.getElementById("output").style.visibility = "collapse";
   
     var link = document.getElementById("input");
