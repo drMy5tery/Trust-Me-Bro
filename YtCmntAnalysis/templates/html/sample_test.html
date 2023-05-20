@@ -5,13 +5,16 @@
     <title>Trust Me Bro</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/4.10.1/bodymovin.min.js"></script>
     <script>
-        var analysisUrl = "{% url 'analysis' %}";
-        var csrfToken = '{{ csrf_token }}';
-        var animationInstance;
+      var analysisUrl = "{% url 'analysis' %}";
+      var csrfToken = "{{ csrf_token }}";
+      var animationInstance;
     </script>
     <script src="{% static '/js/sample_test_loading_animation.js' %}"></script>
     <link
@@ -36,22 +39,32 @@
         -webkit-animation: spin 2s linear infinite; /* Safari */
         animation: spin 2s linear infinite;
       }
-      
 
       /* Safari */
       @-webkit-keyframes spin {
-        0% { -webkit-transform: rotate(0deg); }
-        100% { -webkit-transform: rotate(360deg); }
+        0% {
+          -webkit-transform: rotate(0deg);
+        }
+        100% {
+          -webkit-transform: rotate(360deg);
+        }
       }
 
       @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
       }
     </style>
   </head>
   <body>
-    <div class="bg-cover bg-center" style="background-image: url('{% static "/img/Landing_Page.png"%}')">
+    <div
+      class="bg-cover bg-center"
+      style="background-image: url('{% static 'img/Landing_Page.png' %}')"
+    >
       <div class="h-screen w-full p-5 md:p-10 overflow-auto">
         <div class="h-1/4 md:h-1/2">
           <div class="flex justify-end flex-row h-1/2">
@@ -66,12 +79,11 @@
             <div class="basis-1/12 m-2 md:m-5">
               <a href="https://github.com/drMy5tery/Trust-Me-Bro">
                 <img
-                src="https://cdn-icons-png.flaticon.com/512/5968/5968866.png"
-                width="40"
-                height="40"
+                  src="https://cdn-icons-png.flaticon.com/512/5968/5968866.png"
+                  width="40"
+                  height="40"
                 />
-
-              </a> 
+              </a>
             </div>
           </div>
           <!-- search bar -->
@@ -79,7 +91,12 @@
             <div
               class="flex self-center justify-end flex-row bg-white w-11/12 md:w-6/12 rounded-md h-14"
             >
-              <div class="basis-1/5 h-14 p-2"  id="search"  autocomplete="on" style = "cursor: pointer;">
+              <div
+                class="basis-1/5 h-14 p-2"
+                id="search"
+                autocomplete="on"
+                style="cursor: pointer"
+              >
                 {% csrf_token %}
                 <div align="center">
                   <img
@@ -97,40 +114,43 @@
               <div class="basis-1/5 h-14 p-2" id="close">
                 <div align="center">
                   <img
-                  src="https://cdn4.iconfinder.com/data/icons/menu-phone-glyph/32/menu_glyph_43-512.png"
-                  width="40"
-                  height="40"
+                    src="https://cdn4.iconfinder.com/data/icons/menu-phone-glyph/32/menu_glyph_43-512.png"
+                    width="40"
+                    height="40"
                   />
                 </div>
               </div>
-
             </div>
           </div>
         </div>
-        <hr>
+        <hr />
 
-        <div id="loader" class="basis-full p-5 collapse" align="center">
-        </div>
+        <div id="loader" class="basis-full p-5 collapse" align="center"></div>
 
+        <!-- output section -->
         <div class="h-3/4 md:h-1/2" id="output">
-          <!-- output section -->
           <div class="flex flex-col md:flex-row m-2 md:m-5 h-full gap-4">
-            <div class="basis-4/12 grid grid-cols-1 place-content-center h-full font-mono bg-[#0f0f0f] rounded-2xl p-5">
+            <div
+              class="basis-4/12 grid grid-cols-1 place-content-center h-full font-mono bg-[#0f0f0f] rounded-2xl p-5"
+            >
               <div align="center">
                 <img
-                    id="thumbnail"
-                    src="https://i.ytimg.com/vi/BjyWXiZrSlQ/default.jpg"
-                    width="250"
-                    height="250"
-                  />
+                  id="thumbnail"
+                  src="https://i.ytimg.com/vi/BjyWXiZrSlQ/default.jpg"
+                  width="250"
+                  height="250"
+                />
               </div>
               <div class="text-white text-base" id="video_name">
-                Turning a Figma Design into a Real Website using HTML and CSS              
+                Turning a Figma Design into a Real Website using HTML and CSS
               </div>
               <div class="text-white text-xl" id="video_channel">
-                Django road              
+                Django road
               </div>
-              <div class="flex justify-between text-white text-base my-2 px-2 bg-[#272727] rounded-md overflow-x-scroll" align="center">
+              <div
+                class="flex justify-between text-white text-base my-2 px-2 bg-[#272727] rounded-md overflow-x-scroll"
+                align="center"
+              >
                 <div class="flex row p-1">
                   <i class="material-icons">recommend</i>
                   <div id="views">98822</div>
@@ -145,100 +165,131 @@
                 </div>
               </div>
             </div>
-              
 
-            <div class="basis-full md:basis-8/12 bg-[#141223] rounded-2xl h-full overflow-scroll" >
-              <div class="p-5 font-mono font-light h-full" id="animationWindow" style="display: none;">
-
-              </div>
-              <div class="p-5 font-mono font-light" id="result-container" style="display: none;">
-                <div class="text-white sm:text-sm md:text-base" id="summary_info">
+            <div
+              class="basis-full md:basis-8/12 bg-[#141223] rounded-2xl h-full overflow-scroll"
+            >
+              <div
+                class="p-5 font-mono font-light h-full"
+                id="animationWindow"
+                style="display: none"
+              ></div>
+              <div
+                class="p-5 font-mono font-light"
+                id="result-container"
+                style="display: none"
+              >
+                <div
+                  class="text-white sm:text-sm md:text-base"
+                  id="summary_info"
+                >
                   summary : Yeah bro it's a valid video!!
                 </div>
-                <br>
-                <div class="text-white sm:text-sm md:text-base" id="summary_text">
-                  comments with strong reactions :
-
-                  I loved this. Exactly what I wanted, and so easy to follow. Thank you! - Score: 0.991959273815155
-                  Thankyou for sharing this video.. it's really very helpful for us😍😍🥰🥰🥰 - Score: 0.9918935298919678
-                  Such a great explanation! Tailwind is really amazing! - Score: 0.9905344247817993
-                  Thank you so much, Adrian. You are the real MVP - Score: 0.9889209270477295
+                <br />
+                <div
+                  class="text-white sm:text-sm md:text-base"
+                  id="summary_text"
+                >
+                  comments with strong reactions : I loved this. Exactly what I
+                  wanted, and so easy to follow. Thank you! - Score:
+                  0.991959273815155 Thankyou for sharing this video.. it's
+                  really very helpful for us😍😍🥰🥰🥰 - Score:
+                  0.9918935298919678 Such a great explanation! Tailwind is
+                  really amazing! - Score: 0.9905344247817993 Thank you so much,
+                  Adrian. You are the real MVP - Score: 0.9889209270477295
                   Thanks for making this video ❤️❤️ - Score: 0.9876875281333923
                 </div>
               </div>
             </div>
           </div>
-
         </div>
+      </div>
     </div>
-  </body>
-  <script type="text/javascript">
-    document.getElementById("output").style.visibility = "collapse"; 
+    <script type="text/javascript">
+      document.getElementById("output").style.visibility = "collapse";
 
-    var link = document.getElementById("input");
-    var element = document.getElementById("search");
-    element.onclick = function() 
-    { 
-      url = link.value
-      if (url && url != 'Link') {
-        //document.getElementById("loader").style.visibility = "visible"; 
-        startAnimation();
-        $.ajax({
-            type: 'POST',
+      var link = document.getElementById("input");
+      var element = document.getElementById("search");
+      element.onclick = function () {
+        url = link.value;
+        if (url && url != "Link") {
+          //document.getElementById("loader").style.visibility = "visible";
+          startAnimation();
+          $.ajax({
+            type: "POST",
             url: analysisUrl,
             data: {
-                'csrfmiddlewaretoken': csrfToken,
-                'url': url
+              csrfmiddlewaretoken: csrfToken,
+              url: url,
             },
-            success: function(response) {
+            success: function (response) {
               // console.log(response)
-              document.getElementById("result-container").style.display="block";
-              document.getElementById("animationWindow").style.display="none";
+              document.getElementById("result-container").style.display =
+                "block";
+              document.getElementById("animationWindow").style.display = "none";
               const video_name = document.getElementById("video_name");
               const views = document.getElementById("views");
               const likes = document.getElementById("likes");
               const comments = document.getElementById("comments");
               const video_channel = document.getElementById("video_channel");
-              var thumbnail = document.getElementById("thumbnail"); 
+              var thumbnail = document.getElementById("thumbnail");
 
               const summary_info = document.getElementById("summary_info");
               const summary_text = document.getElementById("summary_text");
 
-              video_name.innerHTML = response['title']
-              views.innerHTML = response['views']
-              likes.innerHTML = response['likes']
-              comments.innerHTML = response['commentcount']
-              video_channel.innerHTML = response['channel_name']
-              thumbnail.src = response['thumbnail']
+              video_name.innerHTML = response["title"];
+              views.innerHTML = response["views"];
+              likes.innerHTML = response["likes"];
+              comments.innerHTML = response["commentcount"];
+              video_channel.innerHTML = response["channel_name"];
+              thumbnail.src = response["thumbnail"];
 
-              summary_info.innerHTML = "summary : Yeah bro it's a "+response['Sentiment_summary']['sentiment']+" video!!"
-              html = "comments with strong reactions : <br/> <ul>";
-                for (var i = 0; i < response.Sentiment_summary.Top_five_comments.length; i++) {
-                    var comment = response.Sentiment_summary.Top_five_comments[i][0];
-                    var score = response.Sentiment_summary.Top_five_comments[i][1];
-                    html += '&#x2022;' + comment + ' - Score: ' + score + ".<br/>";
+              if ("Sentiment_summary" in response["video_analysis"]) {
+                summary_info.innerHTML =
+                  "summary : Yeah bro it's a " +
+                  response["video_analysis"]["Sentiment_summary"]["sentiment"] +
+                  " video!!";
+                html = "comments with strong reactions : <br/> <ul>";
+                for (
+                  var i = 0;
+                  i <
+                  response.video_analysis.Sentiment_summary.Top_five_comments
+                    .length;
+                  i++
+                ) {
+                  var comment =
+                    response.video_analysis.Sentiment_summary.Top_five_comments[
+                      i
+                    ][0];
+                  var score =
+                    response.video_analysis.Sentiment_summary.Top_five_comments[
+                      i
+                    ][1];
+                  html +=
+                    "&#x2022;" + comment + " - Score: " + score + ".<br/>";
                 }
-              html += "</ul>";
-              summary_text.innerHTML = html
+                html += "</ul>";
+                summary_text.innerHTML = html;
+              } else {
+                summary_info.innerHTML =
+                  "Sorry bro, " +
+                  response["video_analysis"]["Error"] +
+                  " for this video.";
+                summary_text.innerHTML = "";
+              }
+            },
+          });
 
+          document.getElementById("loader").style.display = "none";
+          document.getElementById("output").style.visibility = "visible";
+        }
+      };
 
-            }
-        });
-
-        document.getElementById("loader").style.display = "none"; 
-        document.getElementById("output").style.visibility = "visible"; 
-        
-
-      }
-      
-    }
-
-    var close_element = document.getElementById("close");
-    close_element.onclick = function()  
-    {
-      var input = document.getElementById("input");
-      input.value = ""
-    }
-
-  </script>
+      var close_element = document.getElementById("close");
+      close_element.onclick = function () {
+        var input = document.getElementById("input");
+        input.value = "";
+      };
+    </script>
+  </body>
 </html>
