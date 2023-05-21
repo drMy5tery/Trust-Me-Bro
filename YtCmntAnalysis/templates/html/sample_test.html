@@ -45,14 +45,23 @@
         -ms-overflow-style: none; /* IE and Edge */
         scrollbar-width: none; /* Firefox */
       }
+      #footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+      }
     </style>
   </head>
   <body>
     <div class="bg-cover bg-center" id="mainbody">
       <div class="h-screen w-full p-7 md:p-10 overflow-auto scrollbar-hide">
-        <div class="h-1/4 md:h-2/5">
+        <div class="h-24 md:h-2/5">
           <!-- title card -->
-          <div class="flex justify-end flex-row h-1/2 md:h-2/5">
+          <div
+            class="collapse md:visible flex justify-end flex-row h-1/2 md:h-2/5"
+          >
             <div class="basis-11/12">
               <h1
                 class="text-white text-5xl md:text-7xl font-sans font-extrabold"
@@ -73,9 +82,9 @@
           </div>
 
           <!-- search bar -->
-          <div class="flex justify-center h-1/2 md:h-2/5">
+          <div class="flex justify-center h-0 md:h-2/5">
             <div
-              class="flex self-center justify-end flex-row bg-white w-11/12 md:w-6/12 rounded-md h-14 shadow-md shadow-black"
+              class="flex self-center justify-end flex-row bg-white w-full md:w-6/12 rounded-md h-14 shadow-md shadow-black"
             >
               <div
                 class="basis-1/5 h-14 p-1 md:p-2"
@@ -120,7 +129,7 @@
         </div>
 
         <!-- output section -->
-        <div class="h-3/4 md:h-3/5 collapse" id="output">
+        <div class="h-auto md:h-3/5 collapse" id="output">
           <div class="flex flex-col md:flex-row h-full gap-4">
             <div
               class="h-1/5 md:h-full basis-4/12 font-mono bg-[#0f0f0f] rounded-2xl p-5 overflow-scroll drop-shadow"
@@ -199,6 +208,17 @@
             </div>
           </div>
         </div>
+
+        <footer id="footer" class="bg-black rounded-lg p-3">
+          <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400"
+            >© 2023
+            <a
+              href="https://github.com/drMy5tery/Trust-Me-Bro"
+              class="hover:underline"
+              >Trust Me Bro</a
+            >
+          </span>
+        </footer>
       </div>
     </div>
   </body>
