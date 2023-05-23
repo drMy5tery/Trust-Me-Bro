@@ -34,8 +34,7 @@ class SimpleYtCommentAnalyzer:
         )
         response = request.execute()
         if int(response["items"][0]["statistics"]["commentCount"]) < 500:
-            self.stats["video_analysis"] = {"Error" : "InSufficient Data to make an Analysis" }
-
+            self.stats["Error"] = 500 #This error code indicates comments below 500
         self.stats["title"] = response["items"][0]["snippet"]["title"]
         self.stats["channel_name"] = response["items"][0]["snippet"]["channelTitle"]
         self.stats["thumbnail"] = response["items"][0]["snippet"]["thumbnails"][
