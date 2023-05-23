@@ -71,8 +71,6 @@ $(window).on("load", function () {
         },
         success: function (response) {
           // console.log(response, hasYouTubeVideoId(youtubeUrl));
-          document.getElementById("result-container").style.display = "block";
-          document.getElementById("animationWindow").style.display = "none";
           const video_name = document.getElementById("video_name");
           const views = document.getElementById("views");
           const likes = document.getElementById("likes");
@@ -94,6 +92,8 @@ $(window).on("load", function () {
             response.hasOwnProperty("video_analysis") &&
             response["video_analysis"].hasOwnProperty("Sentiment_summary")
           ) {
+            document.getElementById("result-container").style.display = "block";
+            document.getElementById("animationWindow").style.display = "none";
             summary_info.innerHTML =
               "summary : Yeah bro it's a " +
               response["video_analysis"]["Sentiment_summary"]["sentiment"] +
@@ -128,17 +128,21 @@ $(window).on("load", function () {
             html += "</ul>";
             summary_text.innerHTML = html;
           } else if (
-            response["video_analysis"]["Error"] ===
-            "InSufficient Data to make an Analysis"
+            response["Error"] === 500 
           ) {
             summary_info.innerHTML =
               "Sorry bro, " +
-              response["video_analysis"]["Error"] +
+              "InSufficient Data to make an Analysis"
               " for this video.";
             summary_text.innerHTML = "";
-          } else {
+          } else if( response["Error"] === 403
+        ){
             document.getElementById("output").style.visibility = "collapse";
-            alert("Comments disabled for this video!");
+            alert("Comments are disabled for this video!");
+          }
+          else {
+            document.getElementById("output").style.visibility = "collapse";
+            alert("Video not found");
           }
         },
       });
