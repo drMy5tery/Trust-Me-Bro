@@ -70,7 +70,9 @@ $(window).on("load", function () {
           url: youtubeUrl,
         },
         success: function (response) {
-          // console.log(response, hasYouTubeVideoId(youtubeUrl));
+          console.log(response);
+          document.getElementById("result-container").style.display = "block";
+          document.getElementById("animationWindow").style.display = "none";
           const video_name = document.getElementById("video_name");
           const views = document.getElementById("views");
           const likes = document.getElementById("likes");
@@ -89,11 +91,8 @@ $(window).on("load", function () {
           const summary_text = document.getElementById("summary_text");
 
           if (
-            response.hasOwnProperty("video_analysis") &&
-            response["video_analysis"].hasOwnProperty("Sentiment_summary")
+            !response.hasOwnProperty("Error")
           ) {
-            document.getElementById("result-container").style.display = "block";
-            document.getElementById("animationWindow").style.display = "none";
             summary_info.innerHTML =
               "summary : Yeah bro it's a " +
               response["video_analysis"]["Sentiment_summary"]["sentiment"] +
