@@ -8,6 +8,7 @@ from .ML.sent_analysis import SimpleYtCommentAnalyzer
 from django.http import JsonResponse
 from urllib.parse import urlparse, parse_qs
 from .forms import YouTubeUrlForm
+from googleapiclient.errors import HttpError
 
 
 # Create your views here.
@@ -22,7 +23,7 @@ def test(request):
     response = HttpResponse(content_type="text/plain")
     response.content = pretty_data
     return HttpResponse(response)"""
-    return render(request,"sample_test.html")
+    return render(request, "sample_test.html")
 
 
 class Analview(View):
@@ -47,9 +48,19 @@ class Analview(View):
         data = cache.get("yt_url_id_{}".format(url_id))
         if data is None:
             obj = SimpleYtCommentAnalyzer(url_id)
-            obj.get_comments_and_sentiment_by_video_id()
-            data = obj.get_summary()
-            cache.set("yt_url_id_{}".format(url_id), data, 60*60*24*30) # set cache time for 30 days
+            try:
+                obj.get_comments_and_sentiment_by_video_id()
+                data = obj.get_summary()
+                cache.set(
+                    "yt_url_id_{}".format(url_id), data, 60 * 60 * 24 * 30
+                )  # set cache time for 30 days
+            except HttpError as e:
+                if(e.error_details[0]["reason"]=="commentsDisabled"):
+                    print("Comments are disabled")
+                    data = {"Error": 403} #comments are disabled error code
+                else:
+                    print("Video not found")
+                    data = {"Error": 404} # video not found error code
         # print(data)
         return data
 

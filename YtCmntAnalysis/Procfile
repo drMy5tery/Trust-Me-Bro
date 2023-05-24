@@ -1,1 +1,1 @@
-web: gunicorn YtCmntAnalysis.wsgi --timeout 600 --workers 1 --log-file -
+web: gunicorn YtCmntAnalysis.wsgi --timeout 600 --workers 1 --preload --log-file -

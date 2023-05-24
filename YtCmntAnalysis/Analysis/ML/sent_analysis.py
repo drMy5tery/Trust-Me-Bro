@@ -33,14 +33,22 @@ class SimpleYtCommentAnalyzer:
             part="snippet,statistics", id=self.video_id
         )
         response = request.execute()
+        if int(response["items"][0]["statistics"]["commentCount"]) < 500:
+            self.stats["Error"] = 500 #This error code indicates comments below 500
         self.stats["title"] = response["items"][0]["snippet"]["title"]
         self.stats["channel_name"] = response["items"][0]["snippet"]["channelTitle"]
         self.stats["thumbnail"] = response["items"][0]["snippet"]["thumbnails"][
             "standard"
         ]["url"]
-        self.stats["views"] = response["items"][0]["statistics"]["viewCount"]
-        self.stats["likes"] = response["items"][0]["statistics"]["likeCount"]
-        self.stats["commentcount"] = response["items"][0]["statistics"]["commentCount"]
+        self.stats["views"] = self.format_number_with_suffix(
+            int(response["items"][0]["statistics"]["viewCount"])
+        )
+        self.stats["likes"] = self.format_number_with_suffix(
+            int(response["items"][0]["statistics"]["likeCount"])
+        )
+        self.stats["commentcount"] = self.format_number_with_suffix(
+            int(response["items"][0]["statistics"]["commentCount"])
+        )
 
     def text_preprocessing(self, text):
         text.lower()
@@ -48,6 +56,22 @@ class SimpleYtCommentAnalyzer:
         for val in data:
             val.strip()
         return " ".join(data)
+
+    def format_number_with_suffix(self, number):
+        suffixes = [
+            "",
+            "k",
+            "m",
+            "b",
+            "t",
+        ]  # List of suffixes for thousands, millions, billions, trillion
+        magnitude = 0
+
+        while abs(number) >= 1000:
+            number /= 1000.0
+            magnitude += 1
+
+        return f"{number:.1f}{suffixes[magnitude]}"
 
     def generate_score(self, text):
         score = TextBlob(text).sentiment.polarity
@@ -96,17 +120,20 @@ class SimpleYtCommentAnalyzer:
             }
 
     def get_summary(self):
-        self.get_info_about_video()
         self.stats.update(
             {
-                "Sentiment_summary": self.sentiment_summary,
-                "Scores": {
-                    "positive": self.positive,
-                    "negative": self.negative,
-                    "neutral": self.neutral,
-                },
+                "video_analysis": {
+                    "Sentiment_summary": self.sentiment_summary,
+                    "Scores": {
+                        "positive": self.positive,
+                        "negative": self.negative,
+                        "neutral": self.neutral,
+                    },
+                }
             }
         )
+        self.get_info_about_video()
+
         return self.stats
 
     def get_comments_and_sentiment_by_video_id(self):
@@ -129,14 +156,14 @@ class SimpleYtCommentAnalyzer:
                     item["snippet"]["topLevelComment"]["snippet"]["textOriginal"]
                 )
                 sentiment = self.generate_score(text)
-         
+
                 comment = {
                     "comment": text,
                     "comment_like": item["snippet"]["topLevelComment"]["snippet"][
                         "likeCount"
                     ],
                     "total_reply_Count": item["snippet"]["totalReplyCount"],
-                    "sentiment": self.getAnalysis(sentiment,text),
+                    "sentiment": self.getAnalysis(sentiment, text),
                 }
 
                 self.comments.append(comment)
