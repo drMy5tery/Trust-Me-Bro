@@ -94,11 +94,10 @@
               >
                 {% csrf_token %}
                 <div align="center">
-                  <img
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Search_Icon.svg/1024px-Search_Icon.svg.png"
-                    width="40"
-                    height="40"
-                  />
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                  </svg>
+                  
                 </div>
               </div>
               <input
@@ -108,11 +107,9 @@
               />
               <div class="basis-1/5 h-14 p-1 md:p-2" id="close">
                 <div align="center">
-                  <img
-                    src="https://cdn4.iconfinder.com/data/icons/menu-phone-glyph/32/menu_glyph_43-512.png"
-                    width="40"
-                    height="40"
-                  />
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>                  
                 </div>
               </div>
             </div>
@@ -185,7 +182,7 @@
                 style="display: none"
               >
                 <div
-                  class="text-white sm:text-sm md:text-base"
+                  class="text-white sm:text-sm md:text-base flex items-center space-x-2"
                   id="summary_info"
                 >
                   summary : Yeah bro it's a valid video!!
