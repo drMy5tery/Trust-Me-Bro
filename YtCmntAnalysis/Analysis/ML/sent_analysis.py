@@ -32,23 +32,24 @@ class SimpleYtCommentAnalyzer:
         request = self.youtube.videos().list(
             part="snippet,statistics", id=self.video_id
         )
-        response = request.execute()
-        if int(response["items"][0]["statistics"]["commentCount"]) < 500:
-            self.stats["Error"] = 500 #This error code indicates comments below 500
-        self.stats["title"] = response["items"][0]["snippet"]["title"]
-        self.stats["channel_name"] = response["items"][0]["snippet"]["channelTitle"]
-        self.stats["thumbnail"] = response["items"][0]["snippet"]["thumbnails"][
-            "standard"
-        ]["url"]
-        self.stats["views"] = self.format_number_with_suffix(
-            int(response["items"][0]["statistics"]["viewCount"])
-        )
-        self.stats["likes"] = self.format_number_with_suffix(
-            int(response["items"][0]["statistics"]["likeCount"])
-        )
-        self.stats["commentcount"] = self.format_number_with_suffix(
-            int(response["items"][0]["statistics"]["commentCount"])
-        )
+        try:
+            response = request.execute()
+            if int(response["items"][0]["statistics"]["commentCount"]) < 500:
+                self.stats["Error"] = 500 #This error code indicates comments below 500
+            self.stats["title"] = response["items"][0]["snippet"]["title"]
+            self.stats["channel_name"] = response["items"][0]["snippet"]["channelTitle"]
+            self.stats["thumbnail"] = response["items"][0]["snippet"]["thumbnails"]["standard"]["url"]
+            self.stats["views"] = self.format_number_with_suffix(
+                int(response["items"][0]["statistics"]["viewCount"])
+            )
+            self.stats["likes"] = self.format_number_with_suffix(
+                int(response["items"][0]["statistics"]["likeCount"])
+            )
+            self.stats["commentcount"] = self.format_number_with_suffix(
+                int(response["items"][0]["statistics"]["commentCount"])
+            )
+        except KeyError:
+            self.stats["thumbnail"] = response["items"][0]["snippet"]["thumbnails"]["high"]["url"]
 
     def text_preprocessing(self, text):
         text.lower()
