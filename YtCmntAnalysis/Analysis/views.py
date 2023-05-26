@@ -25,6 +25,9 @@ def test(request):
     return HttpResponse(response)"""
     return render(request, "sample_test.html")
 
+def about(request):
+    return render(request, "about.html")
+
 
 class Analview(View):
     form_class = YouTubeUrlForm
