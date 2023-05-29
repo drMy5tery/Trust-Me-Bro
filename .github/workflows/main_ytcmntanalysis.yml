@@ -15,4 +15,6 @@ jobs:
       - name: My Step
         env:
           YOUTUBE_API: ${{ secrets.YOUTUBE_API }} 
-        run: python YtCmntAnalysis/Analysis/ML/sent_analysis.py    
+        run: |
+          pip install -r YtCmntAnalysis/requirements.txt
+          python YtCmntAnalysis/Analysis/ML/sent_analysis.py    
