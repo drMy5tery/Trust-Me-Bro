@@ -15,4 +15,4 @@ jobs:
       - name: My Step
         env:
           YOUTUBE_API: ${{ secrets.YOUTUBE_API }} 
-        run: python Trust-Me-Bro/YtCmntAnalysis/Analysis/ML/sent_analysis.py    
+        run: python YtCmntAnalysis/Analysis/ML/sent_analysis.py    
