@@ -1,15 +1,18 @@
-name: Run Python Script
+name: My Workflow
 
 on:
-  workflow_dispatch:
-
-
-env:
-  YOUTUBE_API: ${{ secrets.YOUTUBE_API }} 
+  push:
+    branches:
+      - '*'
 
 jobs:
-  run-python:
+  my-job:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: My Step
+        env:
+          YOUTUBE_API: ${{ secrets.YOUTUBE_API }} 
+        run: python Trust-Me-Bro/YtCmntAnalysis/Analysis/ML/sent_analysis.py    
