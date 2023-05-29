@@ -1,3 +1,4 @@
+<a name="readme-top"></a>
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
@@ -56,7 +57,7 @@
 ## About The Project
 
 
-Based on the comments of the video it provides a Boolean Result whether it's valid or invalid
+Based on the comments of the video it provides a Boolean Result whether the video is Legit(Valid) or Not(Invalid).
 
 
 ![About Positive Screenshot][about-positive]
@@ -92,6 +93,11 @@ Ensure that you have python and pip [installed](https://www.geeksforgeeks.org/ho
   ```sh
   python --version
   ```
+* pip
+  ```sh
+  pip --version
+  ```
+
 For configuring Youtube API you can refer the documentation [here](https://developers.google.com/youtube/v3/getting-started)
 ### Installation
 
