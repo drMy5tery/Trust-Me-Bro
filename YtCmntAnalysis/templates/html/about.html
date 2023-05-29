@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+  <head>
+    <title>Trust Me Bro</title>
+    <link rel="icon" href="{% static '/img/2.ico' %}" type="image/icon type" />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      #mainbody {
+        background-image: url("{% static 'img/Landing_Page.png' %}");
+      }
+      #footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-cover bg-center" id="mainbody">
+      <div class="h-screen w-full p-7 md:p-10 overflow-auto scrollbar-hide">
+        <div class="p-5">
+          <h1 class="text-white text-5xl md:text-7xl font-sans font-extrabold">
+            About
+          </h1>
+        </div>
+        <div class="bg-[#141223] rounded-2xl p-5">
+          <p
+            class="text-white text-base md:text-lg font-mono font-semibold tracking-normal leading-relaxed text-left md:text-justify"
+          >
+            Trust me, bro, is a simple and fun project that aims to eliminate
+            YouTube videos that provide wrong information to users. It relies
+            solely on user comments as input and does not currently take the
+            entire video into consideration. The project's objective is to
+            predict the validity of the video based solely on comments. If you
+            have suggestions for improving the method using better ML models,
+            please reach out to us via email or through the GitHub repository's
+            issues or pull requests. We welcome valid ideas and will consider
+            integrating them into the main project. Please keep in mind that we
+            prefer to utilize free tools and technologies whenever possible.✌️
+          </p>
+        </div>
+        <div class="flex justify-center space-x-4 p-3">
+          <a
+            href="mailto:rjeprof@gmail.com"
+            class="font-sans font-semibold text-lg text-white hover:text-slate-500"
+            >Email</a
+          >
+          <a
+            href="https://github.com/drMy5tery/Trust-Me-Bro"
+            class="font-sans font-semibold text-lg text-white hover:text-slate-500"
+            >GitHub</a
+          >
+        </div>
+
+        <footer id="footer" class="bg-black rounded-lg p-1">
+          <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400"
+            >© 2023
+            <a
+              href="https://github.com/drMy5tery/Trust-Me-Bro"
+              class="hover:underline"
+              >Trust Me Bro</a
+            >
+            <a href="{% url 'test' %}" class="mr-4 hover:underline md:mr-6"
+              >Home</a
+            >
+          </span>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

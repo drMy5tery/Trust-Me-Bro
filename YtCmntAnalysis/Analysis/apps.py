@@ -1,5 +1,5 @@
 from django.apps import AppConfig
-
+from dotenv import load_dotenv
 class AnalysisConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'Analysis'
@@ -9,6 +9,8 @@ class AnalysisConfig(AppConfig):
         # self.tokenizer = AutoTokenizer.from_pretrained("cardiffnlp/twitter-roberta-base-sentiment")
         # self.model = AutoModelForSequenceClassification.from_pretrained("cardiffnlp/twitter-roberta-base-sentiment")
         print("Default text blob NLP model loaded!")
+        load_dotenv()
+        
     def get_tweet_nlp_model(self):
         return self.tweet_nlp_model
         
