@@ -9,6 +9,7 @@ djangorestframework = "*"
 google-api-python-client = "*"
 gunicorn = "*"
 textblob = "*"
+python-dotenv = "*"
 
 [dev-packages]
 

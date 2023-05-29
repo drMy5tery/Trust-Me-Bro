@@ -2,8 +2,6 @@ import os
 import googleapiclient.discovery
 from textblob import TextBlob
 
-temp_yt_api=os.environ.get("YOUTUBE_API")
-#print(temp_yt_api+"<h1> Sugma </h1>")
 class SimpleYtCommentAnalyzer:
     def __init__(self, video_id="DA7Dtu7eO3E"):
         self.positive = 0
@@ -24,7 +22,6 @@ class SimpleYtCommentAnalyzer:
         api_service_name = "youtube"
         api_version = "v3"
         DEVELOPER_KEY =str(os.environ.get("YOUTUBE_API"))
-        #DEVELOPER_KEY = "AIzaSyBCLGapdQyFLEQNofdzYT0ZgRLrss0EeGw"
         youtube = googleapiclient.discovery.build(
             api_service_name, api_version, developerKey=DEVELOPER_KEY
         )
@@ -123,7 +120,6 @@ class SimpleYtCommentAnalyzer:
             }
 
     def get_summary(self):
-        print(temp_yt_api)
 
         self.stats.update(
             {
