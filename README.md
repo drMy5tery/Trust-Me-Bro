@@ -8,7 +8,6 @@
 
 
 
-<!-- PROJECT LOGO -->
 <br />
 <div align="center">
   <a href="https://github.com/drMy5tery/Trust-Me-Bro">
