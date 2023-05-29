@@ -23,7 +23,8 @@ class SimpleYtCommentAnalyzer:
         os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
         api_service_name = "youtube"
         api_version = "v3"
-        DEVELOPER_KEY = "AIzaSyBCLGapdQyFLEQNofdzYT0ZgRLrss0EeGw"
+        DEVELOPER_KEY =str(os.environ.get("YOUTUBE_API"))
+        #DEVELOPER_KEY = "AIzaSyBCLGapdQyFLEQNofdzYT0ZgRLrss0EeGw"
         youtube = googleapiclient.discovery.build(
             api_service_name, api_version, developerKey=DEVELOPER_KEY
         )
