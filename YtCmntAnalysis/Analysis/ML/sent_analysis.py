@@ -121,6 +121,8 @@ class SimpleYtCommentAnalyzer:
             }
 
     def get_summary(self):
+        print(os.environ.get("YOUTUBE_API"))
+
         self.stats.update(
             {
                 "video_analysis": {
