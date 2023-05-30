@@ -88,17 +88,19 @@ To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
-Ensure that you have python and pip [installed](https://www.geeksforgeeks.org/how-to-install-pip-on-windows/) in your computer
-* python
-  ```sh
-  python --version
-  ```
-* pip
-  ```sh
-  pip --version
-  ```
+* Ensure that you have python and pip [installed](https://www.geeksforgeeks.org/how-to-install-pip-on-windows/) in your computer
+  * python
+    ```sh
+    python --version
+    ```
+  * pip
+    ```sh
+    pip --version
+    ```
 
-For configuring Youtube API you can refer the documentation [here](https://developers.google.com/youtube/v3/getting-started)
+* For configuring Youtube API you can refer the documentation [here](https://developers.google.com/youtube/v3/getting-started)
+
+* After obtaining your API key create a ".env" file in your Project directory and paste "YOUTUBE_API=<your obtained key here\>"
 ### Installation
 
 1. Install pipenv using pip
