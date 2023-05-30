@@ -123,6 +123,7 @@ To get a local copy up and running follow these simple steps.
    ```sh
    python -c "import sys; print(sys.executable)"
    ```
+6. Ensure that "DEBUG=True" in settings.py when your working in Local/Development environment.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

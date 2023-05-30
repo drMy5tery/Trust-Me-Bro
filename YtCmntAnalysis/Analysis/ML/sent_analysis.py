@@ -38,6 +38,10 @@ class SimpleYtCommentAnalyzer:
             self.stats["title"] = response["items"][0]["snippet"]["title"]
             self.stats["channel_name"] = response["items"][0]["snippet"]["channelTitle"]
             self.stats["thumbnail"] = response["items"][0]["snippet"]["thumbnails"]["standard"]["url"]
+            
+        except KeyError:
+            self.stats["thumbnail"] = response["items"][0]["snippet"]["thumbnails"]["high"]["url"]
+        finally:
             self.stats["views"] = self.format_number_with_suffix(
                 int(response["items"][0]["statistics"]["viewCount"])
             )
@@ -47,8 +51,7 @@ class SimpleYtCommentAnalyzer:
             self.stats["commentcount"] = self.format_number_with_suffix(
                 int(response["items"][0]["statistics"]["commentCount"])
             )
-        except KeyError:
-            self.stats["thumbnail"] = response["items"][0]["snippet"]["thumbnails"]["high"]["url"]
+            
 
     def text_preprocessing(self, text):
         text.lower()
