@@ -100,7 +100,8 @@ To get a local copy up and running follow these simple steps.
 
 * For configuring Youtube API you can refer the documentation [here](https://developers.google.com/youtube/v3/getting-started)
 
-* After obtaining your API key create a ".env" file in your Project directory and paste "YOUTUBE_API=<your obtained key here\>"
+* After obtaining your API key create a ".env" file in your Project directory and paste "YOUTUBE_API=<your obtained key here\>".
+* Also create a variable "DEBUG=True" in the ".env" file to work in your Local / Development environment.
 ### Installation
 
 1. Install pipenv using pip
@@ -123,7 +124,6 @@ To get a local copy up and running follow these simple steps.
    ```sh
    python -c "import sys; print(sys.executable)"
    ```
-6. Ensure that "DEBUG=True" in settings.py when your working in Local/Development environment.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
