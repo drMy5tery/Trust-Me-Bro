@@ -1,6 +1,7 @@
 echo " BUILD START"
+python --version
+pip --version
 python -m pip install -r requirements.txt
-mkdir staticfiles_build/static
-python manage.py collectstatic --noinput --clear
+python3.9 manage.py collectstatic --noinput --clear
 echo " BUILD END"
 
