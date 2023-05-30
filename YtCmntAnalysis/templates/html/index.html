@@ -1,35 +1,248 @@
 <!DOCTYPE html>
 {% load static %}
 <html>
-<head>
-    <title>YouTube Sentiment Analysis</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <head>
+    <title>Trust Me Bro</title>
+    <link rel="icon" href="{% static '/img/2.ico' %}" type="image/icon type" />
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
-      rel="preload"
-      as="style"
-      href="{% static 'css/styles.css' %}"
-      onload="this.rel = 'stylesheet'"
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
     />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/4.10.1/bodymovin.min.js"></script>
     <script>
-        var analysisUrl = "{% url 'analysis' %}";
-        var csrfToken = '{{ csrf_token }}';
-        var animationInstance;
+      var analysisUrl = "{% url 'analysis' %}";
+      var csrfToken = "{{ csrf_token }}";
+      var animationInstance;
     </script>
-    <script src="{% static 'js/response_result.js' %}"></script>
-    <script src="{% static 'js/loading_animation.js' %}"></script>
-</head>
-<body>
-    <h1><i class="fa fa-youtube-play" style="color : red"></i>  Sentiment Analysis</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Extract</button>
-    </form>
-    <div id="animationWindow" style="display: none;" >
+    <script src="{% static '/js/url_validation.js' %}"></script>
+    <script src="{% static '/js/loading_animation.js' %}"></script>
+    <script src="{% static '/js/response_result.js' %}"></script>
+    <link
+      rel="preload"
+      as="style"
+      href="{% static 'css/index.css' %}"
+      onload="this.rel = 'stylesheet'"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      input:focus,
+      textarea:focus,
+      select:focus {
+        outline: none;
+      }
+      #mainbody {
+        background-image: url("{% static 'img/Landing_Page.png' %}");
+      }
+      /* For Webkit-based browsers (Chrome, Safari and Opera) */
+      .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+      }
+
+      /* For IE, Edge and Firefox */
+      .scrollbar-hide {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+      }
+      #footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-cover bg-center" id="mainbody">
+      <div class="h-screen w-full p-7 md:p-10 overflow-auto scrollbar-hide">
+        <!--input section -->
+        <div class="h-24 md:h-2/5">
+          <!-- title card -->
+          <div
+            class="collapse md:visible flex justify-end flex-row h-1/2 md:h-2/5"
+          >
+            <div class="basis-11/12">
+              <h1
+                class="text-white text-5xl md:text-7xl font-sans font-extrabold"
+              >
+                TRUST ME <br />
+                BRO
+              </h1>
+            </div>
+            <div class="basis-1/12 m-2 md:m-5">
+              <a href="https://github.com/drMy5tery/Trust-Me-Bro">
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/5968/5968866.png"
+                  width="40"
+                  height="40"
+                />
+              </a>
+            </div>
+          </div>
+
+          <!-- search bar -->
+          <div class="flex justify-center h-0 md:h-2/5">
+            <div
+              class="flex self-center justify-end flex-row bg-white w-full md:w-6/12 rounded-md h-14 shadow-md shadow-black"
+            >
+              <div
+                class="basis-1/5 h-14 p-1 md:p-2"
+                id="search"
+                autocomplete="on"
+                style="cursor: pointer"
+              >
+                {% csrf_token %}
+                <div align="center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-10 h-10"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <input
+                id="input"
+                class="basis-full h-14 p-1 md:p-5 font-semibold text-sm md:text-base"
+                placeholder="Link"
+              />
+              <div class="basis-1/5 h-14 p-1 md:p-2" id="close">
+                <div align="center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-10 h-10"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- dividing line -->
+          <div class="h-1/5 collapse md:visible">
+            <hr
+              class="mx-auto w-1/5 h-3 bg-orange-600 dark:bg-orange-600 shadow-lg shadow-orange-600"
+            />
+            <hr
+              class="h-0.5 bg-orange-600 border-0 rounded shadow-lg shadow-orange-600"
+            />
+          </div>
+        </div>
+
+        <!-- output section -->
+        <div class="h-auto md:h-3/5 collapse" id="output">
+          <div class="flex flex-col md:flex-row h-full gap-4">
+            <!-- video player -->
+            <div
+              class="h-1/5 md:h-full basis-4/12 font-mono bg-[#0f0f0f] rounded-2xl p-5 overflow-scroll drop-shadow scrollbar-hide"
+            >
+              <div class="h-4/5 md:h-3/5 p-3">
+                <img
+                  id="thumbnail"
+                  src="https://i.ytimg.com/vi/BjyWXiZrSlQ/default.jpg"
+                  width="250"
+                  height="250"
+                  class="object-cover h-full w-full rounded-2xl"
+                />
+              </div>
+
+              <div class="h-1/5 md:h-2/5 p-3 grid grid-cols-1 content-around">
+                <div class="text-white text-base" id="video_name">
+                  Turning a Figma Design into a Real Website using HTML and CSS
+                </div>
+                <div class="text-white text-xl" id="video_channel">
+                  Django road
+                </div>
+                <div
+                  class="flex justify-between text-white text-base my-2 px-2 bg-[#272727] rounded-md overflow-x-scroll scrollbar-hide"
+                  align="center"
+                >
+                  <div class="flex row p-1">
+                    <i class="material-icons">recommend</i>
+                    <div id="views">98822</div>
+                  </div>
+                  <div class="flex row p-1">
+                    <i class="material-icons">visibility</i>
+                    <div id="likes">98822</div>
+                  </div>
+                  <div class="flex row p-1">
+                    <i class="material-icons">chat</i>
+                    <div id="comments">98822</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- summary section -->
+            <div
+              class="h-4/5 md:h-full basis-8/12 bg-[#141223] rounded-2xl h-full overflow-scroll drop-shadow scrollbar-hide"
+            >
+              <div
+                class="p-5 h-full"
+                id="animationWindow"
+                style="display: none"
+              ></div>
+              <div
+                class="p-5 font-mono font-light text-justify capitalize tracking-tight"
+                id="result-container"
+                style="display: none"
+              >
+                <div
+                  class="text-white sm:text-sm md:text-base flex items-center space-x-2"
+                  id="summary_info"
+                >
+                  summary : Yeah bro it's a valid video!!
+                </div>
+                <br />
+                <div
+                  class="text-white sm:text-sm md:text-base"
+                  id="summary_text"
+                >
+                  comments with strong reactions : I loved this. Exactly what I
+                  wanted, and so easy to follow. Thank you! - Score:
+                  0.991959273815155 Thankyou for sharing this video.. it's
+                  really very helpful for us😍😍🥰🥰🥰 - Score:
+                  0.9918935298919678 Such a great explanation! Tailwind is
+                  really amazing! - Score: 0.9905344247817993 Thank you so much,
+                  Adrian. You are the real MVP - Score: 0.9889209270477295
+                  Thanks for making this video ❤️❤️ - Score: 0.9876875281333923
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <footer id="footer" class="bg-black rounded-lg p-1">
+          <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400"
+            >© 2023
+            <a
+              href="https://github.com/drMy5tery/Trust-Me-Bro"
+              class="hover:underline"
+              >Trust Me Bro</a
+            >
+            <a href="{% url 'about' %}" class="mr-4 hover:underline md:mr-6 ">About</a>
+          </span>
+        </footer>
+      </div>
     </div>
-    <div id="result-container" style="display: none;">
-    </div>  <!-- Container to display the result -->
-</body>
+  </body>
 </html>
