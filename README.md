@@ -88,7 +88,7 @@ To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
-* Ensure that you have python and pip [installed](https://www.geeksforgeeks.org/how-to-install-pip-on-windows/) in your computer
+* Ensure that you have python and pip [installed](https://www.geeksforgeeks.org/how-to-install-pip-on-windows/) on your computer
   * python
     ```sh
     python --version
