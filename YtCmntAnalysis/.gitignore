@@ -20,9 +20,3 @@ docs/_build/
 
 # .gitignore
 __pycache__/
-
-# Coverage reports
-htmlcov/
-.coverage
-.coverage.*
-*,cover
