@@ -1,22 +1,7 @@
-.DS_Store
-.env
-.flaskenv
+# Django #
+*.log
+*.pot
 *.pyc
-*.pyo
-env/
-venv/
-.venv/
-env*
-dist/
-build/
-*.egg
-*.egg-info/
-.tox/
-.cache/
-.pytest_cache/
-.idea/
-docs/_build/
-.vscode
-
-# .gitignore
-__pycache__/
+__pycache__
+db.sqlite3
+media
