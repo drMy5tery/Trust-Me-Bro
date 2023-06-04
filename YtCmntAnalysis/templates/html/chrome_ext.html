@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>YouTube Sentiment Analysis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link
+      rel="preload"
+      as="style"
+      href="{% static 'css/styles.css' %}"
+      onload="this.rel = 'stylesheet'"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        var analysisUrl = "{% url 'analysis' %}";
+        var csrfToken = '{{ csrf_token }}';
+        var animationInstance;
+    </script>
+    <script src="{% static 'js/response_result.js' %}"></script>
+</head>
+<body>
+    <h1><i class="fa fa-youtube-play" style="color : red"></i>  Sentiment Analysis</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Extract</button>
+    </form>
+    <div id="result-container" style="display: none;">
+    </div>  <!-- Container to display the result -->
+</body>
+</html>

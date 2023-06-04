@@ -20,5 +20,7 @@ from django.conf import settings
 
 urlpatterns = [
     path("", include("Analysis.urls")),
+    path("extension/",include("ChExt.urls"))
+    
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
