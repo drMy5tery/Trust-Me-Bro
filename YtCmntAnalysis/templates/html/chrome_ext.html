@@ -12,11 +12,14 @@
     />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        var analysisUrl = "{% url 'analysis' %}";
+        var analysisUrl = "{% url 'c_ext' %}";
         var csrfToken = '{{ csrf_token }}';
         var animationInstance;
+        var currentURL;
     </script>
+    <script src="{% static 'js/ext_get_url.js' %}"></script>
     <script src="{% static 'js/response_result.js' %}"></script>
+    <script src="{% static 'js/loading_animation.js' %}"></script>
 </head>
 <body>
     <h1><i class="fa fa-youtube-play" style="color : red"></i>  Sentiment Analysis</h1>
@@ -25,6 +28,8 @@
         {{ form.as_p }}
         <button type="submit">Extract</button>
     </form>
+    <div id="animationWindow" style="display: none;" >
+    </div>
     <div id="result-container" style="display: none;">
     </div>  <!-- Container to display the result -->
 </body>
