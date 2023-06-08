@@ -1,0 +1,46 @@
+{
+    "manifest_version": 3,
+    "name": "YT Comment Analysis",
+    "description": "Analyses the Video comments and validates whether it's legit or not",
+    "author": "Jawahar Jeeva",
+    "version": "1.0.0",
+    "background": {
+      "service_worker": "background.js"
+    },
+    "action": {
+      "default_popup": "chrome_ext.html"
+    },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["js/ext_url_validation.js", "js/ext_loading_animation.js", "js/ext_response_result.js"],
+        "css": ["css/styles.css"]
+      }
+    ],
+    "web_accessible_resources": [
+     {
+      "resources": [
+        "js/ext_url_validation.js",
+        "js/ext_loading_animation.js",
+        "js/ext_response_result.js",
+        "css/styles.css",
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",
+        "https://code.jquery.com/jquery-3.6.0.min.js",
+        "https://cdnjs.cloudflare.com/ajax/libs/bodymovin/4.10.1/bodymovin.min.js"
+      ],
+      "matches": ["<all_urls>"]
+    }
+    ],
+    "host_permissions": [ "<all_urls>" ],
+    "permissions": [
+        "activeTab",
+        "http://127.0.0.1:8000//*",   
+        "https://127.0.0.1:8000//*",
+        "style-src 'self' https://cdnjs.cloudflare.com http://localhost:8080",   
+        "script-src 'self' https://code.jquery.com https://cdnjs.cloudflare.com http://localhost:8080"      
+    ],
+    "content_security_policy": {
+      "extension_pages": "script-src 'self'; object-src 'self'",
+      "sandbox": "sandbox allow-scripts; script-src 'self' 'https://code.jquery.com' 'https://cdnjs.cloudflare.com' http://127.0.0.1:8080; object-src 'self'"
+    }
+  }

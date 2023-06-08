@@ -12,7 +12,7 @@ h1 {
 }
 
 form {
-    max-width: 600px;
+    max-width: fit-content;
     margin: 0 auto;
     background-color: #333;
     padding: 20px;
@@ -33,7 +33,7 @@ form button {
 }
 
 #result-container {
-    max-width: 600px;
+    max-width: fit-content;
     margin: 20px auto;
     background-color: #333;
     padding: 20px;
