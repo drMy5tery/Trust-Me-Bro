@@ -14,7 +14,7 @@
                         console.log("Response Received");
                         console.log(response);
                         var resultContainer = document.getElementById("result-container");
-                        var html = '<h1>' + response.title + '</h1>';
+                        var html = '<h1>' + "Final" + '</h1>';
                         if (!response.hasOwnProperty("Error")) {
                             html += '<p>'+response["video_analysis"]["Sentiment_summary"]["sentiment"]+'</p>';
                         } 

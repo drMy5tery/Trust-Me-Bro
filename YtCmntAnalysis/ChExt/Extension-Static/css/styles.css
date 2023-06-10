@@ -1,16 +1,3 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #1a1a1a;
-    color: #fff;
-    margin: 0;
-    padding: 2px;
-}
-
-h1 {
-    text-align: center;
-    color: #fff;
-}
-
 #result-container {
     max-width: 200px;
     margin: 20px auto;
