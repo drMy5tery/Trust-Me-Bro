@@ -1,6 +1,8 @@
 import os
 import googleapiclient.discovery
 from textblob import TextBlob
+import requests
+
 
 class SimpleYtCommentAnalyzer:
     def __init__(self, video_id="DA7Dtu7eO3E"):
@@ -9,6 +11,8 @@ class SimpleYtCommentAnalyzer:
         self.neutral = 0
         self.sentiment_summary = {}
         self.comments = []
+        self.comment_count = 0
+        self.max_size = 514
         self.stats = {"title": "", "views": 0, "likes": 0, "commentcount": 0}
 
         self.top_five_positive_comments = {}
@@ -21,11 +25,30 @@ class SimpleYtCommentAnalyzer:
         os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
         api_service_name = "youtube"
         api_version = "v3"
-        DEVELOPER_KEY =str(os.environ.get("YOUTUBE_API"))
+        DEVELOPER_KEY = str(os.environ.get("YOUTUBE_API"))
         youtube = googleapiclient.discovery.build(
             api_service_name, api_version, developerKey=DEVELOPER_KEY
         )
         return youtube
+
+    def query(self, payload):
+        API_URL = "https://api-inference.huggingface.co/models/cardiffnlp/twitter-roberta-base-sentiment"
+        headers = {"Authorization": "Bearer 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"}
+        label_mapping = {
+            "LABEL_0": "negative",
+            "LABEL_1": "neutral",
+            "LABEL_2": "positive",
+        }
+
+        response = requests.post(API_URL, headers=headers, json=payload)
+        response = response.json()
+
+        for index, (data, comment) in enumerate(zip(response, self.comments)):
+            sorted_output = sorted(data, key=lambda d: d["score"], reverse=True)
+            prediction = sorted_output[0]
+            prediction["label"] = label_mapping[prediction["label"]]
+            comment["sentiment"] = self.getAnalysis(prediction, comment["comment"])
+            self.comments[index] = comment
 
     def get_info_about_video(self):
         request = self.youtube.videos().list(
@@ -33,14 +56,21 @@ class SimpleYtCommentAnalyzer:
         )
         try:
             response = request.execute()
-            if int(response["items"][0]["statistics"]["commentCount"]) < 500:
-                self.stats["Error"] = 500 #This error code indicates comments below 500
+            self.comment_count = int(response["items"][0]["statistics"]["commentCount"])
+            if self.comment_count < 500:
+                self.stats[
+                    "Error"
+                ] = 500  # This error code indicates comments below 500
             self.stats["title"] = response["items"][0]["snippet"]["title"]
             self.stats["channel_name"] = response["items"][0]["snippet"]["channelTitle"]
-            self.stats["thumbnail"] = response["items"][0]["snippet"]["thumbnails"]["standard"]["url"]
-            
+            self.stats["thumbnail"] = response["items"][0]["snippet"]["thumbnails"][
+                "standard"
+            ]["url"]
+
         except KeyError:
-            self.stats["thumbnail"] = response["items"][0]["snippet"]["thumbnails"]["high"]["url"]
+            self.stats["thumbnail"] = response["items"][0]["snippet"]["thumbnails"][
+                "high"
+            ]["url"]
         finally:
             self.stats["views"] = self.format_number_with_suffix(
                 int(response["items"][0]["statistics"]["viewCount"])
@@ -49,9 +79,8 @@ class SimpleYtCommentAnalyzer:
                 int(response["items"][0]["statistics"]["likeCount"])
             )
             self.stats["commentcount"] = self.format_number_with_suffix(
-                int(response["items"][0]["statistics"]["commentCount"])
+                self.comment_count
             )
-            
 
     def text_preprocessing(self, text):
         text.lower()
@@ -123,20 +152,22 @@ class SimpleYtCommentAnalyzer:
             }
 
     def get_summary(self):
-
-        self.stats.update(
-            {
-                "video_analysis": {
-                    "Sentiment_summary": self.sentiment_summary,
-                    "Scores": {
-                        "positive": self.positive,
-                        "negative": self.negative,
-                        "neutral": self.neutral,
-                    },
-                }
-            }
-        )
         self.get_info_about_video()
+
+        if self.comment_count >= 500:
+            self.get_comments_and_sentiment_by_video_id()
+            self.stats.update(
+                {
+                    "video_analysis": {
+                        "Sentiment_summary": self.sentiment_summary,
+                        "Scores": {
+                            "positive": self.positive,
+                            "negative": self.negative,
+                            "neutral": self.neutral,
+                        },
+                    }
+                }
+            )
 
         return self.stats
 
@@ -144,6 +175,7 @@ class SimpleYtCommentAnalyzer:
         """ """
         nextPageToken = None
         total_comments = 0
+        comments = []
         # positive , negative , neutral = 0 , 0 , 0
 
         while total_comments <= 500:
@@ -159,7 +191,9 @@ class SimpleYtCommentAnalyzer:
                 text = self.text_preprocessing(
                     item["snippet"]["topLevelComment"]["snippet"]["textOriginal"]
                 )
-                sentiment = self.generate_score(text)
+                if len(text) >= self.max_size:
+                    continue
+                comments.append(text)
 
                 comment = {
                     "comment": text,
@@ -167,7 +201,6 @@ class SimpleYtCommentAnalyzer:
                         "likeCount"
                     ],
                     "total_reply_Count": item["snippet"]["totalReplyCount"],
-                    "sentiment": self.getAnalysis(sentiment, text),
                 }
 
                 self.comments.append(comment)
@@ -176,4 +209,6 @@ class SimpleYtCommentAnalyzer:
             nextPageToken = response.get("nextPageToken")
             if not nextPageToken:
                 break
+
+        self.query(comments)
         self.sentiment_summary = self.get_sentiment()

@@ -10,6 +10,7 @@ google-api-python-client = "*"
 gunicorn = "*"
 textblob = "*"
 python-dotenv = "*"
+requests = "*"
 
 [dev-packages]
 

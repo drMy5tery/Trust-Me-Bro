@@ -36,7 +36,6 @@ class Analview(View):
         if data is None:
             obj = SimpleYtCommentAnalyzer(url_id)
             try:
-                obj.get_comments_and_sentiment_by_video_id()
                 data = obj.get_summary()
                 cache.set(
                     "yt_url_id_{}".format(url_id), data, 60 * 60 * 24 * 30
