@@ -1,8 +1,7 @@
 $(window).on("load", function () {
-  document.getElementById("output").style.visibility = "collapse";
-
   var link = document.getElementById("input");
   var element = document.getElementById("search");
+  var output = document.getElementById("output");
   // Cache the frequently used DOM elements
   var resultContainer = document.getElementById("result-container");
   var animationWindow = document.getElementById("animationWindow");
@@ -14,6 +13,8 @@ $(window).on("load", function () {
   var thumbnail = document.getElementById("thumbnail");
   var summary_info_text = document.getElementById("summary_info");
   var summary_text = document.getElementById("summary_text");
+
+  output.style.visibility = "collapse";
 
   link.addEventListener("keypress", handleEvent);
   element.addEventListener("click", handleEvent);
@@ -101,18 +102,19 @@ $(window).on("load", function () {
                 (" for this video.");
                 summary_text.innerHTML = "";
               } else if (response["Error"] === 504) {
-                document.getElementById("output").style.visibility = "collapse";
+                output.style.visibility = "collapse";
                 alert("Internal API error!");
               } else if (response["Error"] === 403) {
-                document.getElementById("output").style.visibility = "collapse";
+                output.style.visibility = "collapse";
                 alert("Comments are disabled for this video!");
               }else {
-                document.getElementById("output").style.visibility = "collapse";
+                output.style.visibility = "collapse";
                 alert("Video not found");
               }
             },
             error: function (xhr, status, error) {
                 // Handle the error
+                output.style.visibility = "collapse";
                 alert(error);
             }
           });
