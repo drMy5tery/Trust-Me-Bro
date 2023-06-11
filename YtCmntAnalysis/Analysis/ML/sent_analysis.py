@@ -60,9 +60,14 @@ class SimpleYtCommentAnalyzer:
         request = self.youtube.videos().list(
             part="snippet,statistics", id=self.video_id
         )
+        response = request.execute()
+        assert len(response["items"]) != 0,"Invalid video Id"
+
+        self.comment_count = int(response["items"][0]["statistics"].get("commentCount", False))
+        if not self.comment_count:
+            raise Exception("commentsDisabled")
+        
         try:
-            response = request.execute()
-            self.comment_count = int(response["items"][0]["statistics"]["commentCount"])
             if self.comment_count < 500:
                 self.stats[
                     "Error"
@@ -70,23 +75,24 @@ class SimpleYtCommentAnalyzer:
             self.stats["title"] = response["items"][0]["snippet"]["title"]
             self.stats["channel_name"] = response["items"][0]["snippet"]["channelTitle"]
             self.stats["thumbnail"] = response["items"][0]["snippet"]["thumbnails"][
-                "standard"
+                "high"
             ]["url"]
 
         except KeyError:
             self.stats["thumbnail"] = response["items"][0]["snippet"]["thumbnails"][
-                "high"
+                "standard"
             ]["url"]
         finally:
             self.stats["views"] = self.format_number_with_suffix(
                 int(response["items"][0]["statistics"]["viewCount"])
             )
             self.stats["likes"] = self.format_number_with_suffix(
-                int(response["items"][0]["statistics"]["likeCount"])
+                int(response["items"][0]["statistics"].get("likeCount",0))
             )
             self.stats["commentcount"] = self.format_number_with_suffix(
                 self.comment_count
             )
+        print(self.stats)
 
     def text_preprocessing(self, text):
         text.lower()
