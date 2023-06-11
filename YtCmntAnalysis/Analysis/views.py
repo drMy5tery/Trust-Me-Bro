@@ -21,12 +21,9 @@ class Analview(View):
         return render(request, self.template_name, {"form": form})
 
     def post(self, request):
-        form = self.form_class(request.POST)
-        if form.is_valid():
-            url = form.cleaned_data["url"]
-            video_comment_info = self.get_analysis(url)
-            return JsonResponse(video_comment_info)
-        return render(request, self.template_name, {"form": form})
+        url = request.POST.get("url")
+        video_comment_info = self.get_analysis(url)
+        return JsonResponse(video_comment_info)
 
     def get_analysis(self, url):
         url_id = self.get_yt_video_id(url)
@@ -40,13 +37,13 @@ class Analview(View):
                     "yt_url_id_{}".format(url_id), data, 60 * 60 * 24 * 30
                 )  # set cache time for 30 days
             except AssertionError as e:
-                if(str(e)=="Invalid video Id"):
+                if str(e) == "Invalid video Id":
                     print("Video not found")
-                    data = {"Error": 404} # video not found error code
+                    data = {"Error": 404}  # video not found error code
             except Exception as e:
-                if(str(e)=="commentsDisabled"):
+                if str(e) == "commentsDisabled":
                     print("Comments are disabled")
-                    data = {"Error": 403} #comments are disabled error code
+                    data = {"Error": 403}  # comments are disabled error code
         # print(data)
         return data
 

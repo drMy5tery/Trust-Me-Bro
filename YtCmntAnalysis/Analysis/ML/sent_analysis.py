@@ -92,7 +92,6 @@ class SimpleYtCommentAnalyzer:
             self.stats["commentcount"] = self.format_number_with_suffix(
                 self.comment_count
             )
-        print(self.stats)
 
     def text_preprocessing(self, text):
         text.lower()

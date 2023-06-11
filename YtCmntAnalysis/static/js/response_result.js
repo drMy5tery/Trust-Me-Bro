@@ -121,7 +121,11 @@ $(window).on("load", function () {
 
           document.getElementById("output").style.visibility = "visible";
         } else {
-          alert("Enter a valid Youtube URL!");
+            resultContainer.style.display = "block";
+            animationWindow.style.display = "none";
+            animationInstance.stop();
+            output.style.visibility = "collapse";
+            alert("Enter a valid Youtube URL!");
         }
       }
     }
