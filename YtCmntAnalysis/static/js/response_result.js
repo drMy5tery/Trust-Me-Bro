@@ -111,6 +111,10 @@ $(window).on("load", function () {
                 alert("Video not found");
               }
             },
+            error: function (xhr, status, error) {
+                // Handle the error
+                alert(error);
+            }
           });
 
           document.getElementById("output").style.visibility = "visible";
