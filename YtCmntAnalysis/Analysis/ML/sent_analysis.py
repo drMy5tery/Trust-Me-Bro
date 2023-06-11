@@ -12,7 +12,7 @@ class SimpleYtCommentAnalyzer:
         self.sentiment_summary = {}
         self.comments = []
         self.comment_count = 0
-        self.max_size = 514
+        self.max_size = 500
         self.stats = {"title": "", "views": 0, "likes": 0, "commentcount": 0}
 
         self.top_five_positive_comments = {}
@@ -43,12 +43,18 @@ class SimpleYtCommentAnalyzer:
         response = requests.post(API_URL, headers=headers, json=payload)
         response = response.json()
 
+        if "error" in response:
+            print(response)
+            return "False"
+        
         for index, (data, comment) in enumerate(zip(response, self.comments)):
             sorted_output = sorted(data, key=lambda d: d["score"], reverse=True)
             prediction = sorted_output[0]
             prediction["label"] = label_mapping[prediction["label"]]
             comment["sentiment"] = self.getAnalysis(prediction, comment["comment"])
             self.comments[index] = comment
+
+        return True
 
     def get_info_about_video(self):
         request = self.youtube.videos().list(
@@ -155,19 +161,24 @@ class SimpleYtCommentAnalyzer:
         self.get_info_about_video()
 
         if self.comment_count >= 500:
-            self.get_comments_and_sentiment_by_video_id()
-            self.stats.update(
-                {
-                    "video_analysis": {
-                        "Sentiment_summary": self.sentiment_summary,
-                        "Scores": {
-                            "positive": self.positive,
-                            "negative": self.negative,
-                            "neutral": self.neutral,
-                        },
+            data = self.get_comments_and_sentiment_by_video_id()
+            if data:
+                self.stats.update(
+                    {
+                        "video_analysis": {
+                            "Sentiment_summary": self.sentiment_summary,
+                            "Scores": {
+                                "positive": self.positive,
+                                "negative": self.negative,
+                                "neutral": self.neutral,
+                            },
+                        }
                     }
-                }
-            )
+                )
+            else:
+                self.stats[
+                    "Error"
+                ] = 504 
 
         return self.stats
 
@@ -210,5 +221,9 @@ class SimpleYtCommentAnalyzer:
             if not nextPageToken:
                 break
 
-        self.query(comments)
-        self.sentiment_summary = self.get_sentiment()
+        resp = self.query(comments)
+        if resp:
+            self.sentiment_summary = self.get_sentiment()
+            return True
+        else:
+            return False
