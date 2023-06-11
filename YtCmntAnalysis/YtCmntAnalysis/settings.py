@@ -31,7 +31,7 @@ DEBUG = True if os.environ.get("DEBUG")=="1" else False
 
 
 ALLOWED_HOSTS = ['.vercel.app','.now.sh','*']
-CSRF_TRUSTED_ORIGINS = ['https://*.up.railway.app','https://*.127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://*.up.railway.app','https://*.127.0.0.1',"*"]
 
 # Application definition
 
