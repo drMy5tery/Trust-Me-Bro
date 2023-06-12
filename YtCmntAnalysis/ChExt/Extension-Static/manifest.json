@@ -1,28 +1,42 @@
 {
-    "manifest_version": 3,
-    "name": "YT Comment Analysis",
-    "description": "Analyses the Video comments and validates whether it's legit or not",
-    "author": "Jawahar Jeeva",
-    "version": "1.0",
-    "background": {
-      "service_worker": "background.js"
-    },
-    "action": {
-      "default_popup": "chrome_ext.html"
-    },
-    "content_scripts": [
-      {
-        "matches": ["<all_urls>"],
-        "js": ["js/ext_url_validation.js", "js/ext_response_result.js"],
-        "css": ["css/styles.css"]
-      }
-    ],
-
-    "host_permissions": [ "<all_urls>" ],
-    "permissions": [
-        "activeTab"      
-    ],
-    "content_security_policy": {
-      "extension_pages": "script-src 'self'; object-src 'self'"
+  "manifest_version": 3,
+  "name": "YT Comment Analysis",
+  "description": "Analyses the Video comments and validates whether it's legit or not",
+  "author": "Jawahar Jeeva",
+  "version": "1.0",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "images/icon16.png",
+    "32": "images/icon32.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  },
+  "action": {
+    "default_popup": "chrome_ext.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "js/ext_url_validation.js",
+        "js/ext_response_result.js"
+      ],
+      "css": [
+        "css/styles.css"
+      ]
     }
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "permissions": [
+    "activeTab"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
   }
+}
