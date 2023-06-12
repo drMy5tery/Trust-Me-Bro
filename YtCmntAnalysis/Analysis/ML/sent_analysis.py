@@ -12,7 +12,7 @@ class SimpleYtCommentAnalyzer:
         self.sentiment_summary = {}
         self.comments = []
         self.comment_count = 0
-        self.max_size = 500
+        self.max_size = 512
         self.stats = {"title": "", "views": 0, "likes": 0, "commentcount": 0}
 
         self.top_five_positive_comments = {}
@@ -46,7 +46,7 @@ class SimpleYtCommentAnalyzer:
         if "error" in response:
             print(response)
             return "False"
-        
+
         for index, (data, comment) in enumerate(zip(response, self.comments)):
             sorted_output = sorted(data, key=lambda d: d["score"], reverse=True)
             prediction = sorted_output[0]
@@ -61,12 +61,14 @@ class SimpleYtCommentAnalyzer:
             part="snippet,statistics", id=self.video_id
         )
         response = request.execute()
-        assert len(response["items"]) != 0,"Invalid video Id"
+        assert len(response["items"]) != 0, "Invalid video Id"
 
-        self.comment_count = int(response["items"][0]["statistics"].get("commentCount", False))
+        self.comment_count = int(
+            response["items"][0]["statistics"].get("commentCount", False)
+        )
         if not self.comment_count:
             raise Exception("commentsDisabled")
-        
+
         try:
             if self.comment_count < 500:
                 self.stats[
@@ -87,7 +89,7 @@ class SimpleYtCommentAnalyzer:
                 int(response["items"][0]["statistics"]["viewCount"])
             )
             self.stats["likes"] = self.format_number_with_suffix(
-                int(response["items"][0]["statistics"].get("likeCount",0))
+                int(response["items"][0]["statistics"].get("likeCount", 0))
             )
             self.stats["commentcount"] = self.format_number_with_suffix(
                 self.comment_count
@@ -141,7 +143,7 @@ class SimpleYtCommentAnalyzer:
             return "Positive"
 
     def get_sentiment(self):
-        if self.positive >= self.negative or self.neutral >= self.negative:
+        if self.positive >= self.negative or (self.neutral >= self.negative and self.positive >= self.negative):
             self.top_five_comments = sorted(
                 self.top_five_positive_comments.items(),
                 key=lambda x: x[1],
@@ -181,9 +183,7 @@ class SimpleYtCommentAnalyzer:
                     }
                 )
             else:
-                self.stats[
-                    "Error"
-                ] = 504 
+                self.stats["Error"] = 504
 
         return self.stats
 
@@ -207,8 +207,7 @@ class SimpleYtCommentAnalyzer:
                 text = self.text_preprocessing(
                     item["snippet"]["topLevelComment"]["snippet"]["textOriginal"]
                 )
-                if len(text) >= self.max_size:
-                    continue
+                text = text[: self.max_size]
                 comments.append(text)
 
                 comment = {
