@@ -1,14 +1,38 @@
-#result-container {
-    max-width: 200px;
-    margin: 20px auto;
-    background-color: #333;
-    padding: 20px;
-    text-align: center;
-    border-radius: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+body {
+    padding: 5px;
+    margin: 0;
+    background-color: #000000;
 }
 
+.header_tittle {
+    color: white;
+    text-align: center;
+    font-size: larger;
+    font-weight: bold;
+}
+
+#result-container {
+    margin: auto;
+    background-color: #141223;
+    height: 100px;
+    width: 250px;
+    border: 2px solid #000000;
+    border-radius: 20px;
+    padding: 5px;
+}
 
 #result-container p {
-    margin: 10px 0;
+    color: white;
+    font-weight: bold;
+    text-align: justify;
+}
+
+#result-container h1 {
+    color: white;
+    font-weight: bold;
+}
+
+#result-container h2 {
+    color: white;
+    font-weight: bold;
 }
