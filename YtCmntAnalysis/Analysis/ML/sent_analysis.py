@@ -194,7 +194,7 @@ class SimpleYtCommentAnalyzer:
         comments = []
         # positive , negative , neutral = 0 , 0 , 0
 
-        while total_comments <= 500:
+        while total_comments < 500:
             request = self.youtube.commentThreads().list(
                 part="snippet",
                 videoId=self.video_id,

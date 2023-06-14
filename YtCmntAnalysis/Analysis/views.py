@@ -30,8 +30,8 @@ class Analview(View):
 
         data = cache.get("yt_url_id_{}".format(url_id))
         if data is None:
-            obj = SimpleYtCommentAnalyzer(url_id)
             try:
+                obj = SimpleYtCommentAnalyzer(url_id)
                 data = obj.get_summary()
                 cache.set(
                     "yt_url_id_{}".format(url_id), data, 60 * 60 * 24 * 30
