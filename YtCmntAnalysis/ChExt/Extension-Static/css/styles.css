@@ -1,0 +1,38 @@
+body {
+    padding: 5px;
+    margin: 0;
+    background-color: #000000;
+}
+
+.header_tittle {
+    color: white;
+    text-align: center;
+    font-size: larger;
+    font-weight: bold;
+}
+
+#result-container {
+    margin: auto;
+    background-color: #141223;
+    height: 100px;
+    width: 250px;
+    border: 2px solid #000000;
+    border-radius: 20px;
+    padding: 5px;
+}
+
+#result-container p {
+    color: white;
+    font-weight: bold;
+    text-align: justify;
+}
+
+#result-container h1 {
+    color: white;
+    font-weight: bold;
+}
+
+#result-container h2 {
+    color: white;
+    font-weight: bold;
+}
