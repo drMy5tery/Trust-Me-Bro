@@ -33,8 +33,6 @@ class SimpleYtCommentAnalyzer:
         )
         try:
             response = request.execute()
-            if int(response["items"][0]["statistics"]["commentCount"]) < 500:
-                self.stats["Error"] = 500 #This error code indicates comments below 500
             self.stats["title"] = response["items"][0]["snippet"]["title"]
             self.stats["channel_name"] = response["items"][0]["snippet"]["channelTitle"]
             self.stats["thumbnail"] = response["items"][0]["snippet"]["thumbnails"]["standard"]["url"]
@@ -51,6 +49,7 @@ class SimpleYtCommentAnalyzer:
             self.stats["commentcount"] = self.format_number_with_suffix(
                 int(response["items"][0]["statistics"]["commentCount"])
             )
+            return int(response["items"][0]["statistics"]["commentCount"])
             
 
     def text_preprocessing(self, text):
@@ -136,7 +135,6 @@ class SimpleYtCommentAnalyzer:
                 }
             }
         )
-        self.get_info_about_video()
 
         return self.stats
 
@@ -145,7 +143,7 @@ class SimpleYtCommentAnalyzer:
         nextPageToken = None
         total_comments = 0
         # positive , negative , neutral = 0 , 0 , 0
-
+        m=0
         while total_comments <= 500:
             request = self.youtube.commentThreads().list(
                 part="snippet",
@@ -154,7 +152,12 @@ class SimpleYtCommentAnalyzer:
                 pageToken=nextPageToken,
             )
             response = request.execute()
-
+            if(m==0):
+                comment_count=self.get_info_about_video()
+                if(comment_count<500):
+                    self.stats["Error"] = 500#This error code indicates comments below 500
+                    break
+                m=1
             for item in response["items"]:
                 text = self.text_preprocessing(
                     item["snippet"]["topLevelComment"]["snippet"]["textOriginal"]
