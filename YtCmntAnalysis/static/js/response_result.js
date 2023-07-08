@@ -91,14 +91,14 @@ $(window).on("load", function () {
                     alert("Comments are disabled for this video!");
                     } else {
                     document.getElementById("output").style.visibility = "collapse";
-                    alert("Video not found");
+                    alert("Video not found (Like your GF)");
                     }
                 },
                 });
         
                 document.getElementById("output").style.visibility = "visible";
             } else {
-                alert("Enter a valid Youtube URL!");
+                alert("Enter a valid Youtube URL BRUHHH!");
             }
             };
         }
