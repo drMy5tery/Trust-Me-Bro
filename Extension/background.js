@@ -1,4 +1,4 @@
-var serverhost = 'http://127.0.0.1:8000';
+var serverhost = 'https://trust-me-bro-my5m7t.vercel.app/';  //hosturl for fetching response 
 
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
