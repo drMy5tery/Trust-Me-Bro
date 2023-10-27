@@ -46,6 +46,12 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
+    <li>
+      <a href="#extension">Extension</a>
+      <ul>
+        <li><a href="#loading-extension">Loading Extension</a></li>
+      </ul>
+    </li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
   </ol>
@@ -57,7 +63,7 @@
 ## About The Project
 
 
-Based on the comments of the video it provides a Boolean Result whether the video is Legit(Valid) or Not(Invalid).
+A web app that analyzes video comment sections to determine the legitimacy of the content or information solely based on user comments.
 
 
 ![About Positive Screenshot][about-positive]
@@ -127,6 +133,22 @@ To get a local copy up and running follow these simple steps.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Extension
+This WebApp also has it's own extension which Validates Videos just by clicking on the extension when visiting any youtube video.
+
+![Extension Negative Screenshot][extension-negative]
+### Loading Extension
+
+1. Open the extensions page on your browser (type `{browser-name}://extensions/` in the address bar) and turn on the "Developer Mode"(top right corner).
+
+2. Now Click on the "Load Unpacked"(top left corner) and locate "Trust-Me-Bro\Extension" folder in your pc.
+
+3. Once the extension is loaded, you can pin it in your web browser and use it on any YouTube video.
+
+
+
+
+
 
 
 <!-- CONTRIBUTING -->
@@ -165,6 +187,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 [license-shield]: https://img.shields.io/github/license/drMy5tery/Trust-Me-Bro.svg?style=for-the-badge
 [license-url]: https://github.com/drMy5tery/Trust-Me-Bro/LICENSE.txt
 [about-positive]: images/About_positive.png
+[extension-negative]: images/Ext_neg.png
 [Django.com]:https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white
 [Django-url]: https://www.djangoproject.com/
 [Javascript.com]: https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E
