@@ -11,7 +11,7 @@
     margin: auto;
     background: rgb(171,171,171);
     background: radial-gradient(circle, rgba(171,171,171,1) 16%, rgba(98,107,117,1) 100%);
-    padding: 10px;
+    padding: 20px;
     text-align: center;
     border-radius: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);

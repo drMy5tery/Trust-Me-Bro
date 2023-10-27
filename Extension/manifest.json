@@ -4,6 +4,9 @@
     "description": "Analyses the Video comments and validates whether it's legit or not",
     "author": "Jawahar Jeeva",
     "version": "1.0",
+    "icons": {
+      "128": "images/tmb-128.png"
+  },
     "background": {
       "service_worker": "background.js"
     },
