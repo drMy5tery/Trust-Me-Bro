@@ -145,10 +145,7 @@ This WebApp also has it's own extension which Validates Videos just by clicking 
 
 3. Once the extension is loaded, you can pin it in your web browser and use it on any YouTube video.
 
-
-
-
-
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 <!-- CONTRIBUTING -->
