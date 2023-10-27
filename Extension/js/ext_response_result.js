@@ -6,12 +6,14 @@
             var resultContainer = document.getElementById("result-container");
             var html = '';
             if (youtubeUrl && hasYouTubeVideoId(youtubeUrl)) {
+                html='<h2>Analysing.....</h2>';
                 chrome.runtime.sendMessage( 
                     {c_url:youtubeUrl},function(response) {
                         response=response.response;
                     // var scores=JSON.stringify(response.Scores)
                        // var sentimentColor = sentiment === 'Valid' ? 'springgreen' : 'red';
                     // JSON response handler
+                        html='';
                         console.log("Response Received");
                         console.log(response);
                         if (!response.hasOwnProperty("Error")) {
@@ -31,15 +33,17 @@
                         else if (response["Error"] === 403) {
                             html+='<h2>'  + "Comments are disabled for this video!"+'</h2>';
                         }
-                        resultContainer.innerHTML+=html; 
+                        resultContainer.innerHTML=html;
                     });
                 
             
                         
             }
             else {
+                html='';
                 html+='<h2>'  + "Are you on the right page Bro?"+'</h2>';
             }
             resultContainer.innerHTML+=html;
+            
         });
         
