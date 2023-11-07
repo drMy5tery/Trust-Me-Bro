@@ -63,7 +63,7 @@
 ## About The Project
 
 
-A web app that analyzes video comment sections to determine the legitimacy of the content or information solely based on user comments.
+A web app that analyzes the video comment section to determine the legitimacy of the content or information solely based on user comments.
 
 
 ![About Positive Screenshot][about-positive]
